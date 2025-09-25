@@ -1,7 +1,5 @@
 ﻿using Android.App;
 using Android.Content.PM;
-using Android.OS;
-
 namespace StudyTrackerUi;
 
 [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.SingleTop,
