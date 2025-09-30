@@ -7,8 +7,8 @@ public partial class MainPage : ContentPage
         InitializeComponent();
     }
 
-    private void RainbowOnClicked(object? sender, EventArgs e)
+    private void OnClicked(object? sender, EventArgs e)
     {
-        Button.Text = "Rainbow on";
+        Button.Text = "Clicked";
     }
 }
