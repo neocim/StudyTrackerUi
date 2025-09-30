@@ -7,8 +7,8 @@ public partial class MainPage : ContentPage
         InitializeComponent();
     }
 
-    private void CreateTaskButtonClicked(object? sender, EventArgs e)
+    private async void CreateTaskButtonClicked(object? sender, EventArgs e)
     {
-        Navigation.PushAsync(new CreateTaskPage());
+        await Navigation.PushAsync(new CreateTaskPage());
     }
 }
