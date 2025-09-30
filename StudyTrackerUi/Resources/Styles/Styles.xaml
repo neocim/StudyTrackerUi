@@ -29,7 +29,7 @@
                 Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
     </Style>
 
-    <Style TargetType="Button">
+    <Style x:Key="SquareButton" TargetType="Button">
         <Setter Property="TextColor"
                 Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource PrimaryDarkText}}" />
         <Setter Property="BackgroundColor"
@@ -57,6 +57,13 @@
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
+    </Style>
+
+    <Style x:Key="CircleButton" TargetType="Button" BasedOn="{StaticResource SquareButton}">
+        <Setter Property="CornerRadius" Value="50" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="WidthRequest" Value="90" />
+        <Setter Property="HeightRequest" Value="90" />
     </Style>
 
     <Style TargetType="CheckBox">

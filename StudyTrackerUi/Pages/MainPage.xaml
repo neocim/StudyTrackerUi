@@ -11,18 +11,16 @@
 
             <Label
                 Text="Welcome to Study Tracker!"
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to Study Tracker!" />
+                Style="{StaticResource SubHeadline}" />
 
             <Button
-                x:Name="Button"
-                Text="Do Something"
-                SemanticProperties.Hint="Something"
-                Clicked="OnClicked"
-                HorizontalOptions="Fill"
-                WidthRequest="100"
-                HeightRequest="50" />
+                Style="{StaticResource CircleButton}"
+                x:Name="CreateTaskButton"
+                Clicked="CreateTaskButtonClicked"
+                Text="+"
+                FontSize="40"
+                Margin="0,600,0,0"
+                SemanticProperties.Hint="Open the task creation page" />
         </VerticalStackLayout>
     </ScrollView>
 

@@ -17,8 +17,8 @@
 
             <Button
                 x:Name="Button"
-                Text="Create"
-                SemanticProperties.Hint="Creates a task"
+                Text="Do Something"
+                SemanticProperties.Hint="something"
                 Clicked="OnClicked"
                 HorizontalOptions="Fill"
                 WidthRequest="100"
