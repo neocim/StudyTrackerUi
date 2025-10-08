@@ -10,17 +10,12 @@
             Spacing="25">
 
             <Label
-                Text="Welcome to Study Tracker!"
+                Text="Your tasks"
                 Style="{StaticResource SubHeadline}" />
 
             <Button
-                Style="{StaticResource CircleButton}"
-                x:Name="CreateTaskButton"
-                Clicked="CreateTaskButtonClicked"
-                Text="+"
-                FontSize="40"
-                Margin="0,600,0,0"
-                SemanticProperties.Hint="Open the task creation page" />
+                Style="{StaticResource CreateTasksButton}"
+                Clicked="CreateTasksButtonClicked" />
         </VerticalStackLayout>
     </ScrollView>
 

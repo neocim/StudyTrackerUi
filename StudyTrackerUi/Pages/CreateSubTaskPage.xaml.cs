@@ -1,8 +1,8 @@
 namespace StudyTrackerUi.Pages;
 
-public partial class CreateTaskPage : ContentPage
+public partial class CreateSubTaskPage : ContentPage
 {
-    public CreateTaskPage()
+    public CreateSubTaskPage()
     {
         InitializeComponent();
     }

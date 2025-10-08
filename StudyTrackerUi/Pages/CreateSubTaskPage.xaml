@@ -2,7 +2,7 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="StudyTrackerUi.Pages.CreateTaskPage">
+             x:Class="StudyTrackerUi.Pages.CreateSubTaskPage">
 
     <ScrollView>
         <VerticalStackLayout
@@ -10,10 +10,13 @@
             Spacing="25">
 
             <Label
-                Text="Create a task"
+                Text="Create a subtask"
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Creates a task" />
+                SemanticProperties.Description="Creates a subtask" />
+
+            <Entry Placeholder="Enter name" />
+            <Entry Placeholder="Enter subtask description" />
 
             <Button
                 x:Name="Button"
