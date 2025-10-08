@@ -3,22 +3,20 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    Padding="10"
+    Padding="0"
     CanBeDismissedByTappingOutsideOfPopup="True"
     x:TypeArguments="system:String"
     x:Class="StudyTrackerUi.Pages.Common.Popups.TaskCreate">
 
     <VerticalStackLayout Spacing="6">
-        <Label Text="What do you want to create?" FontSize="20" />
+        <Label Text="What do you want to create?" Padding="0, -7, 0, 0" VerticalOptions="Center" />
 
         <Button Text="Task"
                 Style="{StaticResource SquareButton}"
-                FontSize="20"
                 Clicked="OnClicked" />
 
         <Button Text="Subtask"
                 Style="{StaticResource SquareButton}"
-                FontSize="20"
                 Clicked="OnClicked" />
 
     </VerticalStackLayout>
