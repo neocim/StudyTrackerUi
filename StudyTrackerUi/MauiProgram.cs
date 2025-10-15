@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Maui;
+﻿using System.Reflection;
+using CommunityToolkit.Maui;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace StudyTrackerUi;
@@ -8,6 +10,15 @@ public static class MauiProgram
     public static MauiApp CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
+
+        using var appSettingsStream = Assembly.GetExecutingAssembly()
+            .GetManifestResourceStream("StudyTrackerUi.appsettings.json")!;
+
+        var config = new ConfigurationBuilder()
+            .AddJsonStream(appSettingsStream)
+            .Build();
+
+        builder.Configuration.AddConfiguration(config);
         builder
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
