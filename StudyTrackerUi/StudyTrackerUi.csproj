@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net9.0-android</TargetFramework>
@@ -24,7 +24,8 @@
         <WindowsPackageType>None</WindowsPackageType>
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
-    </PropertyGroup>
+      <UserSecretsId>01e4abe6-fe68-45bf-b398-99a7ccf3a5c5</UserSecretsId>
+  </PropertyGroup>
 
     <ItemGroup>
         <EmbeddedResource Include="appsettings.json" />
