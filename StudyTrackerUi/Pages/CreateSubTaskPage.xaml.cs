@@ -11,4 +11,8 @@ public partial class CreateSubTaskPage : ContentPage
     {
         Button.Text = "Clicked";
     }
+
+    private void SubtaskBeginDateSelected(object sender, DateChangedEventArgs e)
+    {
+    }
 }

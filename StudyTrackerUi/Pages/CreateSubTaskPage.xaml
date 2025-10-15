@@ -18,6 +18,11 @@
             <Entry x:Name="SubTaskName" Placeholder="Enter name" />
             <Entry x:Name="SubTaskDescription" Placeholder="Enter subtask description" />
 
+            <DatePicker x:Name="DatePicker" Format="d">
+                <DatePicker.MinimumDate>1/1/0001</DatePicker.MinimumDate>
+                <DatePicker.MaximumDate>12/31/9999</DatePicker.MaximumDate>
+            </DatePicker>
+
             <Button
                 x:Name="Button"
                 Text="Do Something"
