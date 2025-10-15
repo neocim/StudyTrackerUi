@@ -16,6 +16,7 @@ public static class MauiProgram
 
         var config = new ConfigurationBuilder()
             .AddJsonStream(appSettingsStream)
+            .AddEnvironmentVariables()
             .Build();
 
         builder.Configuration.AddConfiguration(config);
