@@ -6,32 +6,81 @@
 
     <ScrollView>
         <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
+            Padding="0"
+            HorizontalOptions="Fill"
+            VerticalOptions="StartAndExpand"
+            Spacing="10">
 
             <Label
                 Text="Create a subtask"
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Creates a subtask" />
+                Style="{StaticResource Headline}"
+                HorizontalOptions="Center" />
 
-            <Entry x:Name="SubTaskName" Placeholder="Enter name" />
-            <Entry x:Name="SubTaskDescription" Placeholder="Enter subtask description" />
+            <VerticalStackLayout Spacing="5">
+                <Grid
+                    HeightRequest="100"
+                    WidthRequest="370"
+                    Padding="0, 0, 0, 0"
+                    HorizontalOptions="Center">
 
-            <DatePicker x:Name="DatePicker" Format="d">
-                <DatePicker.MinimumDate>1/1/0001</DatePicker.MinimumDate>
-                <DatePicker.MaximumDate>12/31/9999</DatePicker.MaximumDate>
-            </DatePicker>
+                    <BoxView CornerRadius="10" />
+
+                    <VerticalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="0"
+                        Padding="0">
+
+                        <Entry
+                            Placeholder="Enter name"
+                            HorizontalOptions="FillAndExpand" />
+                        <Entry
+                            Placeholder="Enter subtask description"
+                            HorizontalOptions="FillAndExpand" />
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="5">
+                <Label
+                    Text="Select the date"
+                    Style="{StaticResource SubHeadline}"
+                    HorizontalOptions="Center" />
+
+                <Grid
+                    HeightRequest="70"
+                    WidthRequest="370"
+                    HorizontalOptions="Center">
+
+                    <BoxView
+                        Color="{DynamicResource SecondaryBackgroundColor}"
+                        CornerRadius="10" />
+
+                    <VerticalStackLayout
+                        Padding="10">
+
+                        <DatePicker
+                            x:Name="DatePicker"
+                            Format="d"
+                            MinimumDate="1/1/0001"
+                            MaximumDate="12/31/9999"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center" />
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
 
             <Button
-                x:Name="Button"
-                Text="Do Something"
-                SemanticProperties.Hint="something"
-                Clicked="OnClicked"
+                x:Name="CreateButton"
+                Text="Create"
+                Style="{StaticResource SquareButton}"
+                SemanticProperties.Hint="Create a subtask"
+                Clicked="CreateButtonClicked"
                 HorizontalOptions="Fill"
                 WidthRequest="100"
-                HeightRequest="50" />
+                HeightRequest="50"
+                Margin="0,30,0,0" />
         </VerticalStackLayout>
+
     </ScrollView>
 
 </ContentPage>

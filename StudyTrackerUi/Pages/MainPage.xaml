@@ -11,7 +11,7 @@
 
             <Label
                 Text="Your tasks"
-                Style="{StaticResource SubHeadline}" />
+                Style="{StaticResource Headline}" />
 
             <Button
                 Style="{StaticResource CreateTasksButton}"

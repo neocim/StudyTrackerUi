@@ -7,12 +7,12 @@ public partial class CreateSubTaskPage : ContentPage
         InitializeComponent();
     }
 
-    private void OnClicked(object? sender, EventArgs e)
+    private void CreateButtonClicked(object? sender, EventArgs e)
     {
-        Button.Text = "Clicked";
+        CreateButton.Text = "Clicked";
     }
 
-    private void SubtaskBeginDateSelected(object sender, DateChangedEventArgs e)
+    private void BeginDateSelected(object sender, DateChangedEventArgs e)
     {
     }
 }
