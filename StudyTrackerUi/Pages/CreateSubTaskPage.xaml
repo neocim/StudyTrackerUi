@@ -11,9 +11,9 @@
                 Padding="0"
                 HorizontalOptions="Fill"
                 VerticalOptions="StartAndExpand"
-                Spacing="5">
+                Spacing="10">
 
-                <VerticalStackLayout Spacing="5">
+                <VerticalStackLayout Spacing="5" Padding="0, 15, 0, 0">
                     <Grid
                         HeightRequest="120"
                         WidthRequest="370"
@@ -40,8 +40,10 @@
                 <VerticalStackLayout Spacing="5">
                     <Label
                         Text="Select the dates"
-                        Style="{StaticResource SubHeadline}"
-                        HorizontalOptions="Center" />
+                        FontSize="18"
+                        Padding="30, 0, 0, 0"
+                        HorizontalOptions="Start"
+                        VerticalOptions="End" />
 
                     <Grid
                         HeightRequest="90"
@@ -62,7 +64,7 @@
 
                             <DatePicker
                                 x:Name="StartDatePicker"
-                                Format="d"
+                                Format="dd/MM/yyyy"
                                 MinimumDate="1/1/0001"
                                 MaximumDate="12/31/9999"
                                 HorizontalOptions="FillAndExpand"
