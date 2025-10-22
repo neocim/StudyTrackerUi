@@ -18,7 +18,7 @@
 
             <VerticalStackLayout Spacing="5">
                 <Grid
-                    HeightRequest="100"
+                    HeightRequest="120"
                     WidthRequest="370"
                     Padding="0, 0, 0, 0"
                     HorizontalOptions="Center">
@@ -28,7 +28,7 @@
                     <VerticalStackLayout
                         VerticalOptions="Center"
                         Spacing="0"
-                        Padding="0">
+                        Padding="10, -10, 10, 0">
 
                         <Entry
                             Placeholder="Enter name"
@@ -47,16 +47,14 @@
                     HorizontalOptions="Center" />
 
                 <Grid
-                    HeightRequest="70"
+                    HeightRequest="55"
                     WidthRequest="370"
                     HorizontalOptions="Center">
 
-                    <BoxView
-                        Color="{DynamicResource SecondaryBackgroundColor}"
-                        CornerRadius="10" />
+                    <BoxView CornerRadius="10" />
 
                     <VerticalStackLayout
-                        Padding="10">
+                        Padding="10, 0, 10, 0">
 
                         <DatePicker
                             x:Name="DatePicker"
