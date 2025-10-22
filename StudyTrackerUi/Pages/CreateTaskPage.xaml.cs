@@ -7,8 +7,12 @@ public partial class CreateTaskPage : ContentPage
         InitializeComponent();
     }
 
-    private void OnClicked(object? sender, EventArgs e)
+    private void CreateButtonClicked(object? sender, EventArgs e)
     {
-        Button.Text = "Clicked";
+        CreateTaskButton.Text = "Clicked";
+    }
+
+    private void BeginDateSelected(object sender, DateChangedEventArgs e)
+    {
     }
 }

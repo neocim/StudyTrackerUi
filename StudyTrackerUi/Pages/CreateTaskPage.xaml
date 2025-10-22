@@ -2,29 +2,106 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Create a task"
              x:Class="StudyTrackerUi.Pages.CreateTaskPage">
-
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
-
-            <Label
-                Text="Create a task"
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Creates a task" />
-
-            <Button
-                x:Name="Button"
-                Style="{StaticResource SquareButton}"
-                Text="Do Something"
-                SemanticProperties.Hint="something"
-                Clicked="OnClicked"
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout
+                Padding="0"
                 HorizontalOptions="Fill"
-                WidthRequest="100"
-                HeightRequest="50" />
-        </VerticalStackLayout>
-    </ScrollView>
+                VerticalOptions="StartAndExpand"
+                Spacing="5">
+
+                <VerticalStackLayout Spacing="5">
+                    <Grid
+                        HeightRequest="120"
+                        WidthRequest="370"
+                        Padding="0, 0, 0, 0"
+                        HorizontalOptions="Center">
+
+                        <BoxView CornerRadius="10" />
+
+                        <VerticalStackLayout
+                            VerticalOptions="Center"
+                            Spacing="0"
+                            Padding="10, -10, 10, 0">
+
+                            <Entry
+                                Placeholder="Enter the name"
+                                HorizontalOptions="FillAndExpand" />
+                            <Entry
+                                Placeholder="Enter the optional description"
+                                HorizontalOptions="FillAndExpand" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label
+                        Text="Select the dates"
+                        Style="{StaticResource SubHeadline}"
+                        HorizontalOptions="Center" />
+
+                    <Grid
+                        HeightRequest="90"
+                        WidthRequest="370"
+                        HorizontalOptions="Center">
+
+                        <BoxView CornerRadius="10" />
+
+                        <VerticalStackLayout
+                            Padding="10, 10, 10, 0">
+
+                            <Label
+                                Text="Start date"
+                                FontSize="14"
+                                TextColor="Gray"
+                                VerticalOptions="Fill"
+                                HorizontalOptions="Start" />
+
+                            <DatePicker
+                                x:Name="StartDatePicker"
+                                Format="d"
+                                MinimumDate="1/1/0001"
+                                MaximumDate="12/31/9999"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Grid>
+                    <Grid
+                        HeightRequest="90"
+                        WidthRequest="370"
+                        HorizontalOptions="Center">
+
+                        <BoxView CornerRadius="10" />
+
+                        <VerticalStackLayout
+                            Padding="10, 10, 10, 0">
+
+                            <Label
+                                Text="End date"
+                                FontSize="14"
+                                TextColor="Gray"
+                                VerticalOptions="Fill"
+                                HorizontalOptions="Start" />
+
+                            <DatePicker
+                                x:Name="EndDatePicker"
+                                Format="d"
+                                MinimumDate="1/1/0001"
+                                MaximumDate="12/31/9999"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Button
+            x:Name="CreateTaskButton"
+            Style="{StaticResource CreateTaskButton}"
+            Clicked="CreateButtonClicked" />
+    </Grid>
 
 </ContentPage>

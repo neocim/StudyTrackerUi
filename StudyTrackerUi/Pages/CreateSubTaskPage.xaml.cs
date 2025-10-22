@@ -9,7 +9,7 @@ public partial class CreateSubTaskPage : ContentPage
 
     private void CreateButtonClicked(object? sender, EventArgs e)
     {
-        CreateButton.Text = "Clicked";
+        CreateTaskButton.Text = "Clicked";
     }
 
     private void BeginDateSelected(object sender, DateChangedEventArgs e)

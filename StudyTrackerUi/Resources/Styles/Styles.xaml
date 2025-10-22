@@ -66,11 +66,21 @@
         <Setter Property="HeightRequest" Value="90" />
     </Style>
 
+    <Style x:Key="CreateTaskButton" TargetType="Button" BasedOn="{StaticResource CircleButton}">
+        <Setter Property="CornerRadius" Value="30" />
+        <Setter Property="Text" Value="Create" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="HeightRequest" Value="70" />
+        <Setter Property="WidthRequest" Value="110" />
+        <Setter Property="Margin" Value="0,600,0,0" />
+        <Setter Property="SemanticProperties.Hint" Value="Creates a task or subtask" />
+    </Style>
+
     <Style x:Key="CreateTasksButton" TargetType="Button" BasedOn="{StaticResource CircleButton}">
         <Setter Property="Text" Value="+" />
         <Setter Property="FontSize" Value="40" />
         <Setter Property="Margin" Value="0,600,0,0" />
-        <Setter Property="SemanticProperties.Hint" Value="Creates a task or subtask" />
+        <Setter Property="SemanticProperties.Hint" Value="Click to create a task or subtask" />
     </Style>
 
     <Style TargetType="CheckBox">

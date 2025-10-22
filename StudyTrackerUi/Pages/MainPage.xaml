@@ -4,19 +4,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="StudyTrackerUi.Pages.MainPage">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout
+                Padding="30,0"
+                Spacing="10">
 
-            <Label
-                Text="Your tasks"
-                Style="{StaticResource Headline}" />
+                <Label
+                    Text="Your tasks"
+                    Style="{StaticResource Headline}" />
+            </VerticalStackLayout>
+        </ScrollView>
 
-            <Button
-                Style="{StaticResource CreateTasksButton}"
-                Clicked="CreateTasksButtonClicked" />
-        </VerticalStackLayout>
-    </ScrollView>
+        <Button
+            Style="{StaticResource CreateTasksButton}"
+            Clicked="CreateTasksButtonClicked" />
+    </Grid>
 
 </ContentPage>
