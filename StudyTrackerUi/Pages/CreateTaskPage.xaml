@@ -4,7 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="Create a task"
              x:Class="StudyTrackerUi.Pages.CreateTaskPage">
-
     <Grid>
         <ScrollView>
             <VerticalStackLayout
@@ -28,9 +27,11 @@
                             Padding="10, -10, 10, 0">
 
                             <Entry
+                                Text="{Binding Name}"
                                 Placeholder="Enter the name"
                                 HorizontalOptions="FillAndExpand" />
                             <Entry
+                                Text="{Binding Description}"
                                 Placeholder="Enter the optional description"
                                 HorizontalOptions="FillAndExpand" />
                         </VerticalStackLayout>
@@ -63,10 +64,10 @@
                                 HorizontalOptions="Start" />
 
                             <DatePicker
-                                x:Name="StartDatePicker"
-                                Format="dd/MM/yyyy"
-                                MinimumDate="1/1/0001"
-                                MaximumDate="12/31/9999"
+                                Date="{Binding BeginDate}"
+                                Format="yyyy-MM-dd"
+                                MinimumDate="0001-01-01"
+                                MaximumDate="9999-12-31"
                                 HorizontalOptions="FillAndExpand"
                                 VerticalOptions="Center" />
                         </VerticalStackLayout>
@@ -89,10 +90,10 @@
                                 HorizontalOptions="Start" />
 
                             <DatePicker
-                                x:Name="EndDatePicker"
-                                Format="d"
-                                MinimumDate="1/1/0001"
-                                MaximumDate="12/31/9999"
+                                Date="{Binding BeginDate}"
+                                Format="yyyy-MM-dd"
+                                MinimumDate="0001-01-01"
+                                MaximumDate="9999-12-31"
                                 HorizontalOptions="FillAndExpand"
                                 VerticalOptions="Center" />
                         </VerticalStackLayout>
@@ -106,5 +107,4 @@
             Style="{StaticResource CreateTaskButton}"
             Clicked="CreateButtonClicked" />
     </Grid>
-
 </ContentPage>

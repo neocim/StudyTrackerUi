@@ -57,8 +57,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="Pages\App.xaml"/>
-        <AdditionalFiles Include="Pages\AppShell.xaml"/>
         <AdditionalFiles Include="Pages\Common\Popups\CustomActionSheet.xaml"/>
         <AdditionalFiles Include="Pages\MainPage.xaml"/>
     </ItemGroup>
