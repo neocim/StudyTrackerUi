@@ -27,9 +27,22 @@
                             Padding="10, -10, 10, 0">
 
                             <Entry
+                                x:Name="NameEntry"
                                 Text="{Binding Name}"
                                 Placeholder="Enter the name"
-                                HorizontalOptions="FillAndExpand" />
+                                HorizontalOptions="FillAndExpand">
+                                <Entry.Triggers>
+                                    <DataTrigger TargetType="Entry"
+                                                 Binding="{Binding Name}"
+                                                 Value="">
+                                        <Setter Property="Placeholder"
+                                                Value="The name cannot be empty" />
+                                        <Setter Property="PlaceholderColor"
+                                                Value="{StaticResource Red}" />
+                                    </DataTrigger>
+                                </Entry.Triggers>
+                            </Entry>
+
                             <Entry
                                 Text="{Binding Description}"
                                 Placeholder="Enter the optional description"

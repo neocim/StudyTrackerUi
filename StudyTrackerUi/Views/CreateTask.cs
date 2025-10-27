@@ -5,12 +5,11 @@ namespace StudyTrackerUi.Views;
 
 public sealed class CreateTaskViewModel : INotifyPropertyChanged
 {
-    private string _name { get; set; }
-    private string _description { get; set; }
-    private bool _success { get; set; }
-
-    private DateOnly _beginDate { get; set; }
-    private DateOnly _endDate { get; set; }
+    private DateOnly _beginDate;
+    private string _description;
+    private DateOnly _endDate;
+    private string _name;
+    private bool _success;
 
     public string Name
     {
