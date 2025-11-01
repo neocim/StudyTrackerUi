@@ -15,8 +15,9 @@ public partial class CreateTaskPage : ContentPage
 
     private void CreateButtonClicked(object? sender, EventArgs e)
     {
-        // NameEntry.Placeholder = "The name cannot be empty";
-        // NameEntry.PlaceholderColor = (Color)Application.Current.Resources["Red"];
+        if (!_viewModel.NameIsValid)
+            return;
+
         CreateTaskButton.Text = $"{_viewModel.Name}";
     }
 }
