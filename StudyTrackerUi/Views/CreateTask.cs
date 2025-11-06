@@ -39,7 +39,6 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
         }
     }
 
-
     public string Description
     {
         get => _description;
