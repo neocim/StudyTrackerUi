@@ -1,10 +1,10 @@
 using Microsoft.Extensions.Configuration;
 
-namespace StudyTrackerUi.Api.Queries;
+namespace StudyTrackerUi.Api;
 
-public sealed class ApiQuery(IConfiguration Configuration)
+public sealed class ApiQuery(IConfiguration configuration)
 {
-    public readonly string ApiUri = Configuration["ApiUri"]!;
+    public readonly string ApiUri = configuration["ApiUri"]!;
 
     public UserEndpoints User(Guid id)
     {
@@ -13,10 +13,7 @@ public sealed class ApiQuery(IConfiguration Configuration)
 
     public sealed record UserEndpoints(string ApiUri, Guid UserId)
     {
-        public TaskEndpoints Task()
-        {
-            return new TaskEndpoints(ApiUri, UserId);
-        }
+        public TaskEndpoints Task => new(ApiUri, UserId);
     }
 
     public sealed record TaskEndpoints(string ApiUri, Guid UserId)
