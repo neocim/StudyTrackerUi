@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace StudyTrackerUi.Api;
 
-public sealed class ApiQuery(IConfiguration configuration)
+public sealed class ApiRequest(IConfiguration configuration)
 {
     public readonly string ApiUri = configuration["ApiUri"]!;
 
