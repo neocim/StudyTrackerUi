@@ -6,11 +6,21 @@ using TaskDto = StudyTrackerUi.Api.Dto.Task;
 
 namespace StudyTrackerUi.Api;
 
-public sealed class Api(HttpClient httpClient, ApiRequest apiRequest)
+public sealed class ApiClient
 {
+    private readonly ApiRequest _apiRequest;
+    private readonly HttpClient _httpClient;
+
+    public ApiClient(HttpClient httpClient, ApiRequest apiRequest)
+    {
+        _httpClient = httpClient;
+        _apiRequest = apiRequest;
+    }
+
     public async Task<ErrorOr<TaskDto>> GetTask(Guid userId, Guid taskId)
     {
-        using var response = await httpClient.GetAsync(apiRequest.User(userId).Task.GetOne(taskId));
+        using var response =
+            await _httpClient.GetAsync(_apiRequest.User(userId).Task.GetOne(taskId));
 
         var jsonResponse = await response.Content.ReadAsStringAsync();
 
@@ -22,7 +32,7 @@ public sealed class Api(HttpClient httpClient, ApiRequest apiRequest)
         return task;
     }
 
-    public async Task<ErrorOr<Created>> CreateTask(Guid userId, Guid taskId, string name,
+    public async Task<ErrorOr<TaskDto>> CreateTask(Guid userId, Guid taskId, string name,
         string description, DateOnly beginDate, DateOnly endDate)
     {
         var newTask = new
@@ -38,13 +48,15 @@ public sealed class Api(HttpClient httpClient, ApiRequest apiRequest)
             "application/json");
 
         using var response =
-            await httpClient.PostAsync(apiRequest.User(userId).Task.Create, jsonContent);
+            await _httpClient.PostAsync(_apiRequest.User(userId).Task.Create, jsonContent);
 
         var jsonResponse = await response.Content.ReadAsStringAsync();
 
         if (response.StatusCode != HttpStatusCode.Created)
             return Error.Custom(999, response.StatusCode.ToString(), jsonResponse);
 
-        return Result.Created;
+        var task = JsonConvert.DeserializeObject<TaskDto>(jsonResponse)!;
+
+        return task;
     }
 }
