@@ -40,7 +40,7 @@
                                                 Value="{StaticResource Red}" />
                                         <Setter Property="TextColor" Value="{StaticResource Red}" />
                                         <Setter Property="Placeholder"
-                                                Value="{Binding NameErrorMessage}" />
+                                                Value="{Binding ErrorMessage}" />
                                     </DataTrigger>
                                 </Entry.Triggers>
                             </Entry>
@@ -81,6 +81,7 @@
                             <DatePicker
                                 Date="{Binding BeginDate}"
                                 Format="yyyy-MM-dd"
+
                                 MinimumDate="0001-01-01"
                                 MaximumDate="9999-12-31"
                                 HorizontalOptions="FillAndExpand"
@@ -105,7 +106,7 @@
                                 HorizontalOptions="Start" />
 
                             <DatePicker
-                                Date="{Binding BeginDate}"
+                                Date="{Binding EndDate}"
                                 Format="yyyy-MM-dd"
                                 MinimumDate="0001-01-01"
                                 MaximumDate="9999-12-31"
@@ -119,7 +120,7 @@
 
         <Button
             x:Name="CreateTaskButton"
-            Command="{Binding ValidateNameCommand}"
+            Command="{Binding ValidateCommand}"
             Style="{StaticResource CreateTaskButton}"
             Clicked="CreateButtonClicked" />
     </Grid>

@@ -4,11 +4,11 @@ namespace StudyTrackerUi.Api;
 
 public sealed class ApiRequest(IConfiguration configuration)
 {
-    public readonly string BaseUri = configuration["ApiUri"]!;
+    public readonly string BaseUrl = configuration["ApiUrl"]!;
 
     public UserEndpoints User(Guid id)
     {
-        return new UserEndpoints(BaseUri, id);
+        return new UserEndpoints(BaseUrl, id);
     }
 
     public sealed record UserEndpoints(string BaseUri, Guid UserId)

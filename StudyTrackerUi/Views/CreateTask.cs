@@ -8,11 +8,12 @@ namespace StudyTrackerUi.Views;
 public sealed class CreateTaskViewModel : INotifyPropertyChanged
 {
     private readonly TaskValidator _taskValidator = new();
-    private DateOnly _beginDate;
-    private string _description;
-    private DateOnly _endDate;
-    private string _name;
-    private string _nameErrorMessage;
+    private DateTime _beginDate = DateTime.Now.Date;
+    private bool _dateIsValid;
+    private string _description = null!;
+    private DateTime _endDate = DateTime.Now.Date;
+    private string _errorMessage = null!;
+    private string _name = null!;
     private bool _nameIsValid;
     private bool _success;
 
@@ -20,10 +21,10 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
     {
         //  without this, even if the user did not have time to enter anything, entry will be highlighted with an error
         _nameIsValid = true;
-        ValidateNameCommand = new RelayCommand(Validate);
+        ValidateCommand = new RelayCommand(Validate);
     }
 
-    public IRelayCommand ValidateNameCommand { get; private set; }
+    public IRelayCommand ValidateCommand { get; private set; }
 
     public string Name
     {
@@ -65,7 +66,7 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
         }
     }
 
-    public DateOnly BeginDate
+    public DateTime BeginDate
     {
         get => _beginDate;
         set
@@ -78,7 +79,7 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
         }
     }
 
-    public DateOnly EndDate
+    public DateTime EndDate
     {
         get => _endDate;
         set
@@ -104,14 +105,27 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
         }
     }
 
-    public string NameErrorMessage
+    public bool DateIsValid
     {
-        get => _nameErrorMessage;
+        get => _dateIsValid;
         set
         {
-            if (_nameErrorMessage != value)
+            if (_dateIsValid != value)
             {
-                _nameErrorMessage = value;
+                _dateIsValid = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public string ErrorMessage
+    {
+        get => _errorMessage;
+        set
+        {
+            if (_errorMessage != value)
+            {
+                _errorMessage = value;
                 OnPropertyChanged();
             }
         }
@@ -119,19 +133,21 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public void Validate()
+    public async void Validate()
     {
-        var result = _taskValidator.Validate(this);
+        var result = await _taskValidator.ValidateAsync(this);
+
         if (!result.IsValid)
         {
-            NameErrorMessage = result.Errors
-                .FirstOrDefault(e => e.PropertyName == nameof(Name))
-                ?.ErrorMessage!;
-            NameIsValid = false;
+            if (result.Errors[0].ErrorCode == "NamePropertyError") NameIsValid = false;
+            if (result.Errors[0].ErrorCode == "BeginDatePropertyError") DateIsValid = false;
+
+            ErrorMessage = result.Errors[0].ErrorMessage;
             return;
         }
 
         NameIsValid = true;
+        DateIsValid = true;
     }
 
     private void OnPropertyChanged([CallerMemberName] string? name = null)

@@ -39,8 +39,8 @@ public sealed class ApiClient
         {
             name,
             description,
-            begin_date = beginDate,
-            end_date = endDate
+            beginDate,
+            endDate
         };
 
         using var jsonContent = new StringContent(

@@ -21,6 +21,12 @@ public partial class CreateTaskPage : ContentPage
         if (!_viewModel.NameIsValid)
             return;
 
+        if (!_viewModel.DateIsValid)
+        {
+            await DisplayAlert("Error", _viewModel.ErrorMessage, "Ok");
+            return;
+        }
+
         var userId = Guid.Parse("0556cb2d-4d72-4503-81ee-cd91116341b0");
         var taskId = Guid.NewGuid();
         var name = _viewModel.Name;
@@ -29,13 +35,12 @@ public partial class CreateTaskPage : ContentPage
         var endDate = _viewModel.EndDate;
 
         var result =
-            await _apiClient.CreateTask(userId, taskId, name, description, beginDate, endDate);
+            await _apiClient.CreateTask(userId, taskId, name, description,
+                DateOnly.FromDateTime(beginDate), DateOnly.FromDateTime(endDate));
 
         if (result.IsError)
-        {
-            CreateTaskButton.Text = $"{result.Errors[0].Code}";
-            return;
-        }
+            await DisplayAlert($"Error: {result.Errors[0].Code}", result.Errors[0].Description,
+                "Oh no!");
 
         CreateTaskButton.Text = $"{_viewModel.Name}";
     }
