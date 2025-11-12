@@ -30,8 +30,8 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        builder.Services.AddSingleton(new ApiRequest(builder.Configuration));
-        builder.Services.AddScoped<ApiClient>();
+        builder.Services.AddSingleton<ApiRequest>();
+        builder.Services.AddHttpClient<ApiClient>();
 
 #if DEBUG
         builder.Logging.AddDebug();

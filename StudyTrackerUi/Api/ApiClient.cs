@@ -42,6 +42,7 @@ public sealed class ApiClient
             begin_date = beginDate,
             end_date = endDate
         };
+
         using var jsonContent = new StringContent(
             JsonConvert.SerializeObject(newTask),
             Encoding.UTF8,

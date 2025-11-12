@@ -1,4 +1,3 @@
-using ErrorOr;
 using StudyTrackerUi.Api;
 using StudyTrackerUi.Views;
 
@@ -9,34 +8,32 @@ public partial class CreateTaskPage : ContentPage
     private readonly ApiClient _apiClient;
     private readonly CreateTaskViewModel _viewModel;
 
-    public CreateTaskPage()
+    public CreateTaskPage(ApiClient apiClient)
     {
         InitializeComponent();
         BindingContext = new CreateTaskViewModel();
         _viewModel = (CreateTaskViewModel)BindingContext;
+        _apiClient = apiClient;
     }
 
-    protected void Error(List<Error> errors)
-    {
-    }
-
-    private void CreateButtonClicked(object? sender, EventArgs e)
+    private async void CreateButtonClicked(object? sender, EventArgs e)
     {
         if (!_viewModel.NameIsValid)
             return;
 
-        var userId = Guid.NewGuid();
+        var userId = Guid.Parse("0556cb2d-4d72-4503-81ee-cd91116341b0");
         var taskId = Guid.NewGuid();
         var name = _viewModel.Name;
         var description = _viewModel.Description;
         var beginDate = _viewModel.BeginDate;
         var endDate = _viewModel.EndDate;
 
-        var result = _apiClient.CreateTask(userId, taskId, name, description, beginDate, endDate);
+        var result =
+            await _apiClient.CreateTask(userId, taskId, name, description, beginDate, endDate);
 
-        if (result.Result.IsError)
+        if (result.IsError)
         {
-            CreateTaskButton.Text = $"{result.Result.Errors[0].Code}";
+            CreateTaskButton.Text = $"{result.Errors[0].Code}";
             return;
         }
 

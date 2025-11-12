@@ -1,15 +1,19 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Extensions;
 using Microsoft.Maui.Controls.Shapes;
+using StudyTrackerUi.Api;
 using StudyTrackerUi.Pages.Common.Popups;
 
 namespace StudyTrackerUi.Pages;
 
 public partial class MainPage : ContentPage
 {
-    public MainPage()
+    private readonly ApiClient _apiClient;
+
+    public MainPage(ApiClient apiClient)
     {
         InitializeComponent();
+        _apiClient = apiClient;
     }
 
     private async void CreateTasksButtonClicked(object? sender, EventArgs e)
@@ -28,7 +32,7 @@ public partial class MainPage : ContentPage
         {
             case "Task":
             {
-                await Navigation.PushAsync(new CreateTaskPage());
+                await Navigation.PushAsync(new CreateTaskPage(_apiClient));
                 break;
             }
             case "Subtask":
