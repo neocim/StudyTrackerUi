@@ -14,7 +14,7 @@
         <ApplicationTitle>StudyTracker</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>org.neocimProjects.StudyTracker</ApplicationId>
+        <ApplicationId>org.study.tracker</ApplicationId>
 
         <!-- Versions -->
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -35,8 +35,6 @@
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg"/>
 
-        <!-- Splash Screen -->
-
         <!-- Images -->
         <MauiImage Include="Resources\Images\*"/>
 
@@ -48,6 +46,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Auth0.OidcClient.AndroidX" Version="4.4.0"/>
         <PackageReference Include="CommunityToolkit.Maui" Version="12.2.0"/>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
         <PackageReference Include="ErrorOr" Version="2.0.1"/>
@@ -96,6 +95,10 @@
             <DependentUpon>CustomActionSheet.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Api\Security\"/>
     </ItemGroup>
 
 </Project>
