@@ -1,0 +1,21 @@
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Padding="0"
+    CanBeDismissedByTappingOutsideOfPopup="True"
+    x:Class="StudyTrackerUi.Pages.Common.Popups.ErrorPopup">
+
+    <VerticalStackLayout Spacing="6">
+        <Label Text="{Binding ErrorTitle}" Padding="0, -7, 0, 0"
+               VerticalOptions="Center" />
+        <Label Text="{Binding ErrorDescription}" Padding="0, 0, 0, 0"
+               VerticalOptions="Center"
+               FontSize="17" />
+
+        <Button Text="Close"
+                Style="{StaticResource SquareButton}"
+                Clicked="OnClicked" />
+
+    </VerticalStackLayout>
+</toolkit:Popup>

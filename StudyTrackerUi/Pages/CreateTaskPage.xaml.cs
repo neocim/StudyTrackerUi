@@ -1,4 +1,7 @@
+using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Extensions;
 using StudyTrackerUi.Api;
+using StudyTrackerUi.Pages.Common.Popups;
 using StudyTrackerUi.Views;
 
 namespace StudyTrackerUi.Pages;
@@ -23,7 +26,10 @@ public partial class CreateTaskPage : ContentPage
 
         if (!_viewModel.DateIsValid)
         {
-            await DisplayAlert("Error", _viewModel.ErrorMessage, "Ok");
+            await this.ShowPopupAsync(new ErrorPopup(_viewModel.ErrorMessage,
+                    "Can not create a new task"), new PopupOptions { Shadow = null },
+                CancellationToken.None);
+            // await DisplayAlert("Error", _viewModel.ErrorMessage, "Ok");
             return;
         }
 
