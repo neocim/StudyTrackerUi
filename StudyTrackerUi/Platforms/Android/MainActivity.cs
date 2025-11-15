@@ -1,4 +1,5 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 
 namespace StudyTrackerUi;
@@ -8,6 +9,10 @@ namespace StudyTrackerUi;
                            ConfigChanges.UiMode |
                            ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize |
                            ConfigChanges.Density)]
+[IntentFilter(new[] { Intent.ActionView },
+    Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
+    DataScheme = "org.study.tracker", DataHost = "study.tracker.org",
+    DataPathPrefix = "/android/org.study.tracker/callback")]
 public class MainActivity : MauiAppCompatActivity
 {
 }

@@ -11,7 +11,7 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
     private DateTime _beginDate = DateTime.Now.Date;
     private bool _dateIsValid;
     private string _description = null!;
-    private DateTime _endDate = DateTime.Now.Date;
+    private DateTime _endDate = DateTime.Now.Date.AddDays(1);
     private string _errorMessage = null!;
     private string _name = null!;
     private bool _nameIsValid;

@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Auth0.OidcClient;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -31,6 +32,7 @@ public static class MauiProgram
             });
 
         builder.Services.AddSingleton<ApiRequest>();
+        builder.Services.AddTransient<Auth0Client>();
         builder.Services.AddHttpClient<ApiClient>();
 
 #if DEBUG
