@@ -29,10 +29,10 @@ public partial class CreateTaskPage : ContentPage
             await this.ShowPopupAsync(new ErrorPopup(_viewModel.ErrorMessage,
                     "Can not create a new task"), new PopupOptions { Shadow = null },
                 CancellationToken.None);
-            // await DisplayAlert("Error", _viewModel.ErrorMessage, "Ok");
             return;
         }
 
+        // here we should get an user id from id token claim
         var userId = Guid.Parse("0556cb2d-4d72-4503-81ee-cd91116341b0");
         var taskId = Guid.NewGuid();
         var name = _viewModel.Name;

@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Auth0.OidcClient;
 
 namespace StudyTrackerUi;
 
@@ -15,4 +16,10 @@ namespace StudyTrackerUi;
     DataPathPrefix = "/android/org.study.tracker/callback")]
 public class MainActivity : MauiAppCompatActivity
 {
+    protected override async void OnNewIntent(Intent? intent)
+    {
+        base.OnNewIntent(intent);
+
+        ActivityMediator.Instance.Send(intent?.DataString);
+    }
 }
