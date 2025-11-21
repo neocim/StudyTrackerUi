@@ -4,6 +4,7 @@ using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using StudyTrackerUi.Api;
+using StudyTrackerUi.Api.Security;
 
 namespace StudyTrackerUi;
 
@@ -39,6 +40,8 @@ public static class MauiProgram
             ClientId = builder.Configuration["Auth0:ClientId"],
             RedirectUri = builder.Configuration["Auth0:RedirectUri"]
         }));
+        builder.Services.AddScoped<AuthService>();
+        builder.Services.AddScoped<SessionService>();
 
 #if DEBUG
         builder.Logging.AddDebug();
