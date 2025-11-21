@@ -36,7 +36,8 @@ public static class MauiProgram
         builder.Services.AddScoped<Auth0Client>(_ => new Auth0Client(new Auth0ClientOptions
         {
             Domain = builder.Configuration["Auth0:Domain"],
-            ClientId = builder.Configuration["Auth0:ClientId"]
+            ClientId = builder.Configuration["Auth0:ClientId"],
+            RedirectUri = builder.Configuration["Auth0:RedirectUri"]
         }));
 
 #if DEBUG
