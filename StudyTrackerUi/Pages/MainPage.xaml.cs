@@ -12,10 +12,10 @@ public partial class MainPage : ContentPage
 {
     private readonly MainViewModel _mainViewModel;
 
-    public MainPage(ApiClient apiClient, AuthService authService, SessionService sessionService)
+    public MainPage(ApiClient apiClient, AuthService authService)
     {
         InitializeComponent();
-        BindingContext = new MainViewModel(apiClient, authService, sessionService);
+        BindingContext = new MainViewModel(apiClient, authService);
         _mainViewModel = (MainViewModel)BindingContext;
     }
 

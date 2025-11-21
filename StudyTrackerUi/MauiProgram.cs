@@ -41,7 +41,6 @@ public static class MauiProgram
             RedirectUri = builder.Configuration["Auth0:RedirectUri"]
         }));
         builder.Services.AddScoped<AuthService>();
-        builder.Services.AddScoped<SessionService>();
 
 #if DEBUG
         builder.Logging.AddDebug();
