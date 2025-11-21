@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Auth0.OidcClient;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -32,6 +33,11 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<ApiRequest>();
         builder.Services.AddHttpClient<ApiClient>();
+        builder.Services.AddScoped<Auth0Client>(_ => new Auth0Client(new Auth0ClientOptions
+        {
+            Domain = builder.Configuration["Auth0:Domain"],
+            ClientId = builder.Configuration["Auth0:ClientId"]
+        }));
 
 #if DEBUG
         builder.Logging.AddDebug();

@@ -1,4 +1,4 @@
-namespace StudyTrackerUi.Views;
+namespace StudyTrackerUi.ViewModels;
 
 public sealed class ErrorPopupViewModel
 {

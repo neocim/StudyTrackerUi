@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.Input;
 using StudyTrackerUi.Validations;
 
-namespace StudyTrackerUi.Views;
+namespace StudyTrackerUi.ViewModels;
 
 public sealed class CreateTaskViewModel : INotifyPropertyChanged
 {

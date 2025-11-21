@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using ErrorOr;
 using Newtonsoft.Json;
@@ -59,5 +60,11 @@ public sealed class ApiClient
         var task = JsonConvert.DeserializeObject<TaskDto>(jsonResponse)!;
 
         return task;
+    }
+
+    public void SetAuthHeader(string bearerToken)
+    {
+        _httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", bearerToken);
     }
 }

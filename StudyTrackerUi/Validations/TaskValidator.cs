@@ -1,5 +1,5 @@
 using FluentValidation;
-using StudyTrackerUi.Views;
+using StudyTrackerUi.ViewModels;
 
 namespace StudyTrackerUi.Validations;
 

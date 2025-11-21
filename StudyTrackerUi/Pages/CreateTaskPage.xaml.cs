@@ -2,7 +2,7 @@ using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Extensions;
 using StudyTrackerUi.Api;
 using StudyTrackerUi.Pages.Common.Popups;
-using StudyTrackerUi.Views;
+using StudyTrackerUi.ViewModels;
 
 namespace StudyTrackerUi.Pages;
 

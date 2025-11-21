@@ -1,5 +1,5 @@
 using CommunityToolkit.Maui.Views;
-using StudyTrackerUi.Views;
+using StudyTrackerUi.ViewModels;
 
 namespace StudyTrackerUi.Pages.Common.Popups;
 
