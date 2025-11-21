@@ -1,20 +1,22 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Extensions;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.Controls.Shapes;
 using StudyTrackerUi.Api;
+using StudyTrackerUi.Api.Security;
 using StudyTrackerUi.Pages.Common.Popups;
+using StudyTrackerUi.ViewModels;
 
 namespace StudyTrackerUi.Pages;
 
 public partial class MainPage : ContentPage
 {
-    private readonly ApiClient _apiClient;
+    private readonly MainViewModel _mainViewModel;
 
-    public MainPage(IConfiguration configuration, ApiClient apiClient)
+    public MainPage(ApiClient apiClient, AuthService authService, SessionService sessionService)
     {
         InitializeComponent();
-        _apiClient = apiClient;
+        BindingContext = new MainViewModel(apiClient, authService, sessionService);
+        _mainViewModel = (MainViewModel)BindingContext;
     }
 
     private async void CreateTasksButtonClicked(object? sender, EventArgs e)
@@ -33,7 +35,7 @@ public partial class MainPage : ContentPage
         {
             case "Task":
             {
-                await Navigation.PushAsync(new CreateTaskPage(_apiClient));
+                await Navigation.PushAsync(new CreateTaskPage(_mainViewModel.ApiClient));
                 break;
             }
             case "Subtask":

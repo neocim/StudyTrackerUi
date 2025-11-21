@@ -7,16 +7,16 @@ namespace StudyTrackerUi.ViewModels;
 
 public sealed class MainViewModel : INotifyPropertyChanged
 {
-    private ApiClient _apiClient;
-    private AuthService _authService;
-    private SessionService _sessionService;
+    public ApiClient ApiClient;
+    public AuthService AuthService;
+    public SessionService SessionService;
 
     public MainViewModel(ApiClient apiClient, AuthService authService,
         SessionService sessionService)
     {
-        _apiClient = apiClient;
-        _authService = authService;
-        _sessionService = sessionService;
+        ApiClient = apiClient;
+        AuthService = authService;
+        SessionService = sessionService;
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
