@@ -21,10 +21,10 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
     {
         //  without this, even if the user did not have time to enter anything, entry will be highlighted with an error
         _nameIsValid = true;
-        ValidateCommand = new RelayCommand(Validate);
+        ValidateCommand = new AsyncRelayCommand(Validate);
     }
 
-    public IRelayCommand ValidateCommand { get; private set; }
+    public IAsyncRelayCommand ValidateCommand { get; private set; }
 
     public string Name
     {
@@ -133,7 +133,7 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public async void Validate()
+    public async Task Validate()
     {
         var result = await _taskValidator.ValidateAsync(this);
 

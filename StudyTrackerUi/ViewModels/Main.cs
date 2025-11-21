@@ -18,14 +18,14 @@ public sealed class MainViewModel : INotifyPropertyChanged
         ApiClient = apiClient;
         AuthService = authService;
         SessionService = SessionService.Instance;
-        LoginCommand = new RelayCommand(Login);
+        LoginCommand = new AsyncRelayCommand(Login);
     }
 
-    public IRelayCommand LoginCommand { get; private set; }
+    public IAsyncRelayCommand LoginCommand { get; private set; }
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    private async Task<ErrorOr<Success>> Login()
+    private async Task Login()
     {
         if (!await SessionService.SessionValidAsync())
         {
