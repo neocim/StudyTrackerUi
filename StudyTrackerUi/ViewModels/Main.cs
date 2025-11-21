@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.Input;
-using ErrorOr;
 using StudyTrackerUi.Api;
 using StudyTrackerUi.Api.Security;
 
@@ -9,6 +8,8 @@ namespace StudyTrackerUi.ViewModels;
 
 public sealed class MainViewModel : INotifyPropertyChanged
 {
+    private string _errorMessage;
+    private bool _hasAuthError;
     public ApiClient ApiClient;
     public AuthService AuthService;
     public SessionService SessionService;
@@ -21,6 +22,32 @@ public sealed class MainViewModel : INotifyPropertyChanged
         LoginCommand = new AsyncRelayCommand(Login);
     }
 
+    public string ErrorMessage
+    {
+        get => _errorMessage;
+        set
+        {
+            if (_errorMessage != value)
+            {
+                _errorMessage = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public bool HasAuthError
+    {
+        get => _hasAuthError;
+        set
+        {
+            if (_hasAuthError != value)
+            {
+                _hasAuthError = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
     public IAsyncRelayCommand LoginCommand { get; private set; }
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -30,12 +57,17 @@ public sealed class MainViewModel : INotifyPropertyChanged
         if (!await SessionService.SessionValidAsync())
         {
             var result = await AuthService.Authenticate();
-            if (result.IsError) return result.Errors[0];
+
+            if (result.IsError)
+            {
+                HasAuthError = true;
+                ErrorMessage = result.Errors[0].Description;
+
+                return;
+            }
 
             ApiClient.SetAuthHeader(result.Value.AccessToken);
         }
-
-        return Result.Success;
     }
 
     private void OnPropertyChanged([CallerMemberName] string? name = null)
