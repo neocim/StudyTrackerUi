@@ -40,13 +40,20 @@ public partial class CreateTaskPage : ContentPage
         var beginDate = _viewModel.BeginDate;
         var endDate = _viewModel.EndDate;
 
-        var result =
-            await _apiClient.CreateTask(userId, taskId, name, description,
-                DateOnly.FromDateTime(beginDate), DateOnly.FromDateTime(endDate));
+        try
+        {
+            var result =
+                await _apiClient.CreateTask(userId, taskId, name, description,
+                    DateOnly.FromDateTime(beginDate), DateOnly.FromDateTime(endDate));
 
-        if (result.IsError)
-            await DisplayAlert($"Error: {result.Errors[0].Code}", result.Errors[0].Description,
-                "Oh no!");
+            if (result.IsError)
+                await DisplayAlert($"Error: {result.Errors[0].Code}", result.Errors[0].Description,
+                    "Oh no!");
+        }
+        catch (Exception exception)
+        {
+            await DisplayAlert("Unexpected error", exception.InnerException.Message, "Oh no!");
+        }
 
         CreateTaskButton.Text = $"{_viewModel.Name}";
     }

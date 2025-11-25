@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using Auth0.OidcClient;
 using ErrorOr;
 
@@ -45,7 +46,7 @@ public sealed class AuthService
             return Error.Custom(999, result.Error, result.ErrorDescription);
 
         var bearerTokenInfo = new BearerTokenInfo(result.AccessToken, result.RefreshToken,
-            result.AccessTokenExpiration
+            result.AccessTokenExpiration, result.User.Claims
         );
 
         return bearerTokenInfo;
@@ -57,8 +58,11 @@ public sealed class AuthService
         if (result.IsError)
             return Error.Custom(999, result.Error, result.ErrorDescription);
 
+        var handler = new JwtSecurityTokenHandler();
+        var token = handler.ReadJwtToken(result.IdentityToken);
+
         var bearerTokenInfo = new BearerTokenInfo(result.AccessToken, result.RefreshToken,
-            result.AccessTokenExpiration
+            result.AccessTokenExpiration, token.Claims
         );
 
         return bearerTokenInfo;

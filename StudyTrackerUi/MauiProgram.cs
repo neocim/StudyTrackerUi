@@ -38,7 +38,8 @@ public static class MauiProgram
         {
             Domain = builder.Configuration["Auth0:Domain"],
             ClientId = builder.Configuration["Auth0:ClientId"],
-            RedirectUri = builder.Configuration["Auth0:RedirectUri"]
+            RedirectUri = builder.Configuration["Auth0:RedirectUri"],
+            Scope = builder.Configuration["Auth0:Scope"]
         }));
         builder.Services.AddScoped<AuthService>();
 
