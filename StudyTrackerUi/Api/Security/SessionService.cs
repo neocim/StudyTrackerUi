@@ -15,6 +15,14 @@ public sealed class SessionService
         await SecureStorage.Default.SetAsync(StorageKey, token);
     }
 
+    public async Task<BearerTokenInfo?> GetBearerTokenInfoAsync()
+    {
+        if (await SecureStorage.Default.GetAsync(StorageKey) is { } token)
+            return JsonConvert.DeserializeObject<BearerTokenInfo>(token);
+
+        return null;
+    }
+
     public async Task<bool> TokenExistsAsync()
     {
         if (BearerTokenInfo is null) return false;

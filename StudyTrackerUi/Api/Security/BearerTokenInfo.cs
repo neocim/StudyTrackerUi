@@ -17,4 +17,10 @@ public sealed class BearerTokenInfo
         AccessTokenExpiration = accessTokenExpiration;
         Claims = claims;
     }
+
+    public Guid GetUserIdFromClaim()
+    {
+        return Guid.Parse(Claims.FirstOrDefault(c => c.Type == "https://study.tracker.org/userId")!
+            .Value);
+    }
 }

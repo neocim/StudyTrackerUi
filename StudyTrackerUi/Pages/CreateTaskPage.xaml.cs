@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Extensions;
 using StudyTrackerUi.Api;
+using StudyTrackerUi.Api.Security;
 using StudyTrackerUi.Pages.Common.Popups;
 using StudyTrackerUi.ViewModels;
 
@@ -32,8 +33,13 @@ public partial class CreateTaskPage : ContentPage
             return;
         }
 
-        // here we should get an user id from id token claim
-        var userId = Guid.Parse("0556cb2d-4d72-4503-81ee-cd91116341b0");
+        var tokenInfo = await SessionService.Instance.GetBearerTokenInfoAsync();
+        if (tokenInfo is null)
+        {
+            await DisplayAlert("Unexpected error", "Couldn't get bearer token info", "Oh no!");
+            return;
+        }
+
         var taskId = Guid.NewGuid();
         var name = _viewModel.Name;
         var description = _viewModel.Description;
@@ -43,7 +49,8 @@ public partial class CreateTaskPage : ContentPage
         try
         {
             var result =
-                await _apiClient.CreateTask(userId, taskId, name, description,
+                await _apiClient.CreateTask(tokenInfo.GetUserIdFromClaim(), taskId, name,
+                    description,
                     DateOnly.FromDateTime(beginDate), DateOnly.FromDateTime(endDate));
 
             if (result.IsError)

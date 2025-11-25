@@ -58,11 +58,10 @@ public sealed class AuthService
         if (result.IsError)
             return Error.Custom(999, result.Error, result.ErrorDescription);
 
-        var handler = new JwtSecurityTokenHandler();
-        var token = handler.ReadJwtToken(result.IdentityToken);
+        var tokenHandler = new JwtSecurityTokenHandler();
 
         var bearerTokenInfo = new BearerTokenInfo(result.AccessToken, result.RefreshToken,
-            result.AccessTokenExpiration, token.Claims
+            result.AccessTokenExpiration, tokenHandler.ReadJwtToken(result.IdentityToken).Claims
         );
 
         return bearerTokenInfo;
