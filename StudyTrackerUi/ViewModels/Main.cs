@@ -12,13 +12,11 @@ public sealed class MainViewModel : INotifyPropertyChanged
     private bool _hasAuthError;
     public ApiClient ApiClient;
     public AuthService AuthService;
-    public SessionService SessionService;
 
     public MainViewModel(ApiClient apiClient, AuthService authService)
     {
         ApiClient = apiClient;
         AuthService = authService;
-        SessionService = SessionService.Instance;
         LoginCommand = new AsyncRelayCommand(Login);
     }
 
@@ -54,20 +52,17 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
     private async Task Login()
     {
-        if (!await SessionService.SessionValidAsync())
+        var result = await AuthService.Login();
+
+        if (result.IsError)
         {
-            var result = await AuthService.Authenticate();
+            HasAuthError = true;
+            ErrorMessage = result.Errors[0].Description;
 
-            if (result.IsError)
-            {
-                HasAuthError = true;
-                ErrorMessage = result.Errors[0].Description;
-
-                return;
-            }
-
-            ApiClient.SetAuthHeader(result.Value.AccessToken);
+            return;
         }
+
+        ApiClient.SetAuthHeader(result.Value.AccessToken);
     }
 
     private void OnPropertyChanged([CallerMemberName] string? name = null)

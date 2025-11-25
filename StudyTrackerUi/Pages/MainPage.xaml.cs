@@ -19,6 +19,20 @@ public partial class MainPage : ContentPage
         _mainViewModel = (MainViewModel)BindingContext;
     }
 
+    private async void Test(object? sender, EventArgs e)
+    {
+        var result = await _mainViewModel.AuthService.Login();
+
+        if (result.IsError)
+        {
+            for (;;) Console.WriteLine($"{result.Errors[0].Description}");
+
+            return;
+        }
+
+        for (;;) Console.WriteLine("SUCCESS");
+    }
+
     private async void CreateTasksButtonClicked(object? sender, EventArgs e)
     {
         var action = await this.ShowPopupAsync<string>(new TaskCreate(), new PopupOptions
