@@ -8,12 +8,12 @@
 
     <VerticalStackLayout Spacing="6">
         <Label Text="{Binding ErrorTitle}" Padding="0, -7, 0, 0"
-               VerticalOptions="Center" />
+               HorizontalOptions="Center" VerticalOptions="Center" />
         <Label Text="{Binding ErrorDescription}" Padding="0, 0, 0, 0"
-               VerticalOptions="Center"
+               HorizontalOptions="Center" VerticalOptions="Center"
                FontSize="17" />
 
-        <Button Text="Close"
+        <Button Text="Ok"
                 Style="{StaticResource SquareButton}"
                 Clicked="OnClicked" />
 

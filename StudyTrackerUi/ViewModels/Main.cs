@@ -50,7 +50,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    private async Task Login()
+    public async Task Login()
     {
         var result = await AuthService.Login();
 
