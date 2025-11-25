@@ -3,22 +3,17 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="StudyTrackerUi.Pages.MainPage">
+             x:Class="StudyTrackerUi.Pages.MainPage"
+             x:Name="MainP">
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing"
-                                        Command="{Binding LoginCommand}" />
+                                        Command="{Binding BindingContext.LoginCommand, Source={x:Reference MainP}}" />
     </ContentPage.Behaviors>
     <Grid>
         <ScrollView>
             <VerticalStackLayout
                 Padding="30,0"
                 Spacing="10">
-
-                <Label Text="{Binding ErrorMessage}" />
-
-                <Button
-                    Style="{StaticResource CircleButton}"
-                    Clicked="Test" />
 
                 <Label
                     Text="Your tasks"
