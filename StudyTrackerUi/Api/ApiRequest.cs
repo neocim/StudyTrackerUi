@@ -13,24 +13,24 @@ public sealed class ApiRequest(IConfiguration configuration)
 
     public sealed record UserEndpoints(string BaseUri, Guid UserId)
     {
-        public TaskEndpoints Task => new($"{BaseUri}/users", UserId);
+        public TaskEndpoints Task => new($"{BaseUri}/users/{UserId}");
     }
 
-    public sealed record TaskEndpoints(string EndpointBase, Guid UserId)
+    public sealed record TaskEndpoints(string EndpointBase)
     {
-        public string Create => $"{EndpointBase}/{UserId}/tasks";
-        public string Update => $"{EndpointBase}/{UserId}/tasks";
-        public string Delete => $"{EndpointBase}/{UserId}/tasks";
-        public string GetMany => $"{EndpointBase}/{UserId}/tasks";
+        public string Create => $"{EndpointBase}/tasks";
+        public string Update => $"{EndpointBase}/tasks";
+        public string Delete => $"{EndpointBase}/tasks";
+        public string GetMany => $"{EndpointBase}/tasks";
 
         public string GetOne(Guid taskId)
         {
-            return $"{EndpointBase}/{UserId}/tasks/{taskId}";
+            return $"{EndpointBase}/tasks/{taskId}";
         }
 
         public string CreateSubTask(Guid parentTaskId)
         {
-            return $"{EndpointBase}/{UserId}/tasks/{parentTaskId}/subtasks";
+            return $"{EndpointBase}/tasks/{parentTaskId}/subtasks";
         }
     }
 }
