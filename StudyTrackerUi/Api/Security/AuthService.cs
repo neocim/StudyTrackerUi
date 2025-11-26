@@ -46,7 +46,8 @@ public sealed class AuthService
             return Error.Custom(999, result.Error, result.ErrorDescription);
 
         var bearerTokenInfo = new BearerTokenInfo(result.AccessToken, result.RefreshToken,
-            result.AccessTokenExpiration, result.User.Claims
+            result.AccessTokenExpiration,
+            result.User.Claims.Select(c => new KeyValuePair<string, string>(c.Type, c.Value))
         );
 
         return bearerTokenInfo;
@@ -61,7 +62,9 @@ public sealed class AuthService
         var tokenHandler = new JwtSecurityTokenHandler();
 
         var bearerTokenInfo = new BearerTokenInfo(result.AccessToken, result.RefreshToken,
-            result.AccessTokenExpiration, tokenHandler.ReadJwtToken(result.IdentityToken).Claims
+            result.AccessTokenExpiration,
+            tokenHandler.ReadJwtToken(result.IdentityToken).Claims
+                .Select(c => new KeyValuePair<string, string>(c.Type, c.Value))
         );
 
         return bearerTokenInfo;

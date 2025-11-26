@@ -20,8 +20,6 @@ public class MainActivity : MauiAppCompatActivity
     {
         base.OnNewIntent(intent);
 
-        Console.WriteLine($"Deep link received: {intent?.DataString}");
-
         ActivityMediator.Instance.Send(intent?.DataString);
     }
 }

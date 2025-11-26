@@ -59,7 +59,7 @@ public partial class CreateTaskPage : ContentPage
         }
         catch (Exception exception)
         {
-            await DisplayAlert("Unexpected error", exception.InnerException.Message, "Oh no!");
+            await DisplayAlert("Unexpected error", exception.Message, "Oh no!");
         }
 
         CreateTaskButton.Text = $"{_viewModel.Name}";
