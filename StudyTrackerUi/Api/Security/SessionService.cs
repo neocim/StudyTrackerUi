@@ -34,13 +34,13 @@ public sealed class SessionService
         return true;
     }
 
-    public void ClearStorage()
-    {
-        SecureStorage.Default.RemoveAll();
-    }
-
     public bool TokenExpired()
     {
         return DateTimeOffset.UtcNow > BearerTokenInfo!.AccessTokenExpiration;
+    }
+
+    public void ClearStorage()
+    {
+        SecureStorage.Default.RemoveAll();
     }
 }

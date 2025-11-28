@@ -1,24 +1,27 @@
+using System.IdentityModel.Tokens.Jwt;
+
 namespace StudyTrackerUi.Api.Security;
 
 public sealed class BearerTokenInfo
 {
     public string AccessToken;
     public DateTimeOffset AccessTokenExpiration;
-    public IEnumerable<KeyValuePair<string, string>> Claims;
+    public string IdToken;
     public string RefreshToken;
 
-    public BearerTokenInfo(string accessToken, string refreshToken,
-        DateTimeOffset accessTokenExpiration, IEnumerable<KeyValuePair<string, string>> claims)
+    public BearerTokenInfo(string accessToken, string idToken, string refreshToken,
+        DateTimeOffset accessTokenExpiration)
     {
         AccessToken = accessToken;
         RefreshToken = refreshToken;
         AccessTokenExpiration = accessTokenExpiration;
-        Claims = claims;
+        IdToken = idToken;
     }
 
     public Guid GetUserIdFromClaim()
     {
-        return Guid.Parse(Claims.FirstOrDefault(c => c.Key == "https://study.tracker.org/userId")
+        return Guid.Parse(new JwtSecurityTokenHandler().ReadJwtToken(IdToken).Claims
+            .FirstOrDefault(c => c.Type == "https://study.tracker.org/userId")!
             .Value);
     }
 }

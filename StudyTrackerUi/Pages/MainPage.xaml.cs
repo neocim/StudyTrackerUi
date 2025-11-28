@@ -11,16 +11,29 @@ namespace StudyTrackerUi.Pages;
 public partial class MainPage : ContentPage
 {
     private readonly MainViewModel _mainViewModel;
+    private readonly SessionService _sessionService;
 
     public MainPage(ApiClient apiClient, AuthService authService)
     {
         InitializeComponent();
         BindingContext = new MainViewModel(apiClient, authService);
         _mainViewModel = (MainViewModel)BindingContext;
+        _sessionService = SessionService.Instance;
     }
 
     private async void CreateTasksButtonClicked(object? sender, EventArgs e)
     {
+        var tokenNotExists = !await _sessionService.TokenExistsAsync();
+        var tokenExpired = _sessionService.TokenExpired();
+
+        if (tokenNotExists || tokenExpired)
+        {
+            await _mainViewModel.Login();
+
+            if (_mainViewModel.HasAuthError)
+                await DisplayAlert("Authentication Error", _mainViewModel.ErrorMessage, "Ok");
+        }
+
         var action = await this.ShowPopupAsync<string>(new TaskCreate(), new PopupOptions
             {
                 Shadow = null,

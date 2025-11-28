@@ -17,26 +17,33 @@ public sealed class AuthService
 
     public async Task<ErrorOr<BearerTokenInfo>> Login()
     {
-        if (await _sessionService.TokenExistsAsync())
+        try
         {
-            if (_sessionService.TokenExpired())
+            if (await _sessionService.TokenExistsAsync())
             {
-                var refreshResult =
-                    await RefreshTokenAsync(_sessionService.BearerTokenInfo!.RefreshToken);
-                if (refreshResult.IsError) return refreshResult.Errors[0];
+                if (_sessionService.TokenExpired())
+                {
+                    var refreshResult =
+                        await RefreshTokenAsync(_sessionService.BearerTokenInfo!.RefreshToken);
+                    if (refreshResult.IsError) return refreshResult.Errors[0];
 
-                await _sessionService.SaveBearerTokenInfoAsync(refreshResult.Value);
-                return refreshResult.Value;
+                    await _sessionService.SaveBearerTokenInfoAsync(refreshResult.Value);
+                    return refreshResult.Value;
+                }
+
+                return _sessionService.BearerTokenInfo!;
             }
 
-            return _sessionService.BearerTokenInfo!;
+            var authResult = await Authenticate();
+            if (authResult.IsError) return authResult.Errors[0];
+
+            await _sessionService.SaveBearerTokenInfoAsync(authResult.Value);
+            return authResult.Value;
         }
-
-        var authResult = await Authenticate();
-        if (authResult.IsError) return authResult.Errors[0];
-
-        await _sessionService.SaveBearerTokenInfoAsync(authResult.Value);
-        return authResult.Value;
+        catch (Exception ex)
+        {
+            for (;;) Console.WriteLine(ex.Message);
+        }
     }
 
     private async Task<ErrorOr<BearerTokenInfo>> Authenticate()
@@ -45,10 +52,11 @@ public sealed class AuthService
         if (result.IsError)
             return Error.Custom(999, result.Error, result.ErrorDescription);
 
-        var bearerTokenInfo = new BearerTokenInfo(result.AccessToken, result.RefreshToken,
-            result.AccessTokenExpiration,
-            result.User.Claims.Select(c => new KeyValuePair<string, string>(c.Type, c.Value))
-        );
+        var bearerTokenInfo = new BearerTokenInfo(
+            result.AccessToken,
+            result.IdentityToken,
+            result.RefreshToken,
+            result.AccessTokenExpiration);
 
         return bearerTokenInfo;
     }
@@ -61,11 +69,11 @@ public sealed class AuthService
 
         var tokenHandler = new JwtSecurityTokenHandler();
 
-        var bearerTokenInfo = new BearerTokenInfo(result.AccessToken, result.RefreshToken,
-            result.AccessTokenExpiration,
-            tokenHandler.ReadJwtToken(result.IdentityToken).Claims
-                .Select(c => new KeyValuePair<string, string>(c.Type, c.Value))
-        );
+        var bearerTokenInfo = new BearerTokenInfo(
+            result.AccessToken,
+            result.IdentityToken,
+            result.RefreshToken,
+            result.AccessTokenExpiration);
 
         return bearerTokenInfo;
     }
