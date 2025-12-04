@@ -1,6 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 
-namespace StudyTrackerUi.Api.Security;
+namespace StudyTrackerUi.Web.Security;
 
 public sealed class BearerTokenInfo
 {

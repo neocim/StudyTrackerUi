@@ -1,8 +1,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.Input;
-using StudyTrackerUi.Api;
-using StudyTrackerUi.Api.Security;
+using StudyTrackerUi.Web;
+using StudyTrackerUi.Web.Security;
 
 namespace StudyTrackerUi.ViewModels;
 

@@ -1,9 +1,9 @@
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Extensions;
-using StudyTrackerUi.Api;
-using StudyTrackerUi.Api.Security;
 using StudyTrackerUi.Pages.Common.Popups;
 using StudyTrackerUi.ViewModels;
+using StudyTrackerUi.Web;
+using StudyTrackerUi.Web.Security;
 
 namespace StudyTrackerUi.Pages;
 

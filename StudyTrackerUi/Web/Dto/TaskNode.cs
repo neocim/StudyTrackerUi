@@ -1,4 +1,4 @@
-namespace StudyTrackerUi.Api.Dto;
+namespace StudyTrackerUi.Web.Dto;
 
 public record TaskNode(
     Guid Id,

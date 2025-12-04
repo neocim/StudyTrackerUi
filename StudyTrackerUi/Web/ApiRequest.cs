@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace StudyTrackerUi.Api;
+namespace StudyTrackerUi.Web;
 
 public sealed class ApiRequest(IConfiguration configuration)
 {

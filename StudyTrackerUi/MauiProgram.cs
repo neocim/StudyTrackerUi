@@ -3,8 +3,8 @@ using Auth0.OidcClient;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using StudyTrackerUi.Api;
-using StudyTrackerUi.Api.Security;
+using StudyTrackerUi.Web;
+using StudyTrackerUi.Web.Security;
 
 namespace StudyTrackerUi;
 

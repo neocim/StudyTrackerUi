@@ -3,9 +3,9 @@ using System.Net.Http.Headers;
 using System.Text;
 using ErrorOr;
 using Newtonsoft.Json;
-using TaskDto = StudyTrackerUi.Api.Dto.Task;
+using TaskDto = StudyTrackerUi.Web.Dto.Task;
 
-namespace StudyTrackerUi.Api;
+namespace StudyTrackerUi.Web;
 
 public sealed class ApiClient
 {

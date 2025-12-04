@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace StudyTrackerUi.Api.Security;
+namespace StudyTrackerUi.Web.Security;
 
 public sealed class SessionService
 {
