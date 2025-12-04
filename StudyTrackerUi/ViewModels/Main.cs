@@ -52,17 +52,25 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
     public async Task Login()
     {
-        var result = await AuthService.Login();
+        try
+        {
+            var result = await AuthService.Login();
 
-        if (result.IsError)
+            if (result.IsError)
+            {
+                HasAuthError = true;
+                ErrorMessage = result.Errors[0].Description;
+
+                return;
+            }
+
+            ApiClient.SetAuthHeader(result.Value.AccessToken);
+        }
+        catch (Exception ex)
         {
             HasAuthError = true;
-            ErrorMessage = result.Errors[0].Description;
-
-            return;
+            ErrorMessage = ex.Message;
         }
-
-        ApiClient.SetAuthHeader(result.Value.AccessToken);
     }
 
     private void OnPropertyChanged([CallerMemberName] string? name = null)

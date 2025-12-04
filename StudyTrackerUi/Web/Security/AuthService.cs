@@ -19,34 +19,26 @@ public sealed class AuthService
 
     public async Task<ErrorOr<BearerTokenInfo>> Login()
     {
-        try
+        if (await _sessionService.TokenExistsAsync())
         {
-            _sessionService.ClearStorage();
-            if (await _sessionService.TokenExistsAsync())
+            if (_sessionService.TokenExpired())
             {
-                if (_sessionService.TokenExpired())
-                {
-                    var refreshResult =
-                        await RefreshTokenAsync(_sessionService.BearerTokenInfo!.RefreshToken);
-                    if (refreshResult.IsError) return refreshResult.Errors[0];
+                var refreshResult =
+                    await RefreshTokenAsync(_sessionService.BearerTokenInfo!.RefreshToken);
+                if (refreshResult.IsError) return refreshResult.Errors[0];
 
-                    await _sessionService.SaveBearerTokenInfoAsync(refreshResult.Value);
-                    return refreshResult.Value;
-                }
-
-                return _sessionService.BearerTokenInfo!;
+                await _sessionService.SaveBearerTokenInfoAsync(refreshResult.Value);
+                return refreshResult.Value;
             }
 
-            var authResult = await Authenticate();
-            if (authResult.IsError) return authResult.Errors[0];
+            return _sessionService.BearerTokenInfo!;
+        }
 
-            await _sessionService.SaveBearerTokenInfoAsync(authResult.Value);
-            return authResult.Value;
-        }
-        catch (Exception ex)
-        {
-            for (;;) Console.WriteLine(ex.Message);
-        }
+        var authResult = await Authenticate();
+        if (authResult.IsError) return authResult.Errors[0];
+
+        await _sessionService.SaveBearerTokenInfoAsync(authResult.Value);
+        return authResult.Value;
     }
 
     private async Task<ErrorOr<BearerTokenInfo>> Authenticate()
@@ -55,15 +47,6 @@ public sealed class AuthService
             await _auth0Client.LoginAsync(new { audience = _configuration["Auth0:Audience"] });
         if (result.IsError)
             return Error.Custom(999, result.Error, result.ErrorDescription);
-
-        for (;;)
-        {
-            Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAA");
-            Console.WriteLine(result.AccessToken);
-            Console.WriteLine(result.IdentityToken);
-            Console.WriteLine(result.RefreshToken);
-            Console.WriteLine(result.AccessTokenExpiration);
-        }
 
         var bearerTokenInfo = new BearerTokenInfo(
             result.AccessToken,
@@ -79,15 +62,6 @@ public sealed class AuthService
         var result = await _auth0Client.RefreshTokenAsync(refreshToken);
         if (result.IsError)
             return Error.Custom(999, result.Error, result.ErrorDescription);
-
-        for (;;)
-        {
-            Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAA");
-            Console.WriteLine(result.AccessToken);
-            Console.WriteLine(result.IdentityToken);
-            Console.WriteLine(result.RefreshToken);
-            Console.WriteLine(result.AccessTokenExpiration);
-        }
 
         var bearerTokenInfo = new BearerTokenInfo(
             result.AccessToken,

@@ -24,7 +24,7 @@ public partial class MainPage : ContentPage
     private async void CreateTasksButtonClicked(object? sender, EventArgs e)
     {
         if (_mainViewModel.HasAuthError)
-            await DisplayAlert("Authentication Error", _mainViewModel.ErrorMessage, "Ok");
+            await DisplayAlert("Authentication Error", _mainViewModel.ErrorMessage, "Oh no");
 
         var tokenNotExists = !await _sessionService.TokenExistsAsync();
         var tokenExpired = _sessionService.TokenExpired();
@@ -34,7 +34,7 @@ public partial class MainPage : ContentPage
             await _mainViewModel.Login();
 
             if (_mainViewModel.HasAuthError)
-                await DisplayAlert("Authentication Error", _mainViewModel.ErrorMessage, "Ok");
+                await DisplayAlert("Authentication Error", _mainViewModel.ErrorMessage, "Oh no");
         }
 
         var action = await this.ShowPopupAsync<string>(new TaskCreate(), new PopupOptions
