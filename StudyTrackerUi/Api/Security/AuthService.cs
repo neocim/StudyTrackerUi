@@ -1,17 +1,19 @@
-using System.IdentityModel.Tokens.Jwt;
 using Auth0.OidcClient;
 using ErrorOr;
+using Microsoft.Extensions.Configuration;
 
 namespace StudyTrackerUi.Api.Security;
 
 public sealed class AuthService
 {
     private readonly Auth0Client _auth0Client;
+    private readonly IConfiguration _configuration;
     private readonly SessionService _sessionService;
 
-    public AuthService(Auth0Client auth0Client)
+    public AuthService(Auth0Client auth0Client, IConfiguration configuration)
     {
         _auth0Client = auth0Client;
+        _configuration = configuration;
         _sessionService = SessionService.Instance;
     }
 
@@ -19,6 +21,7 @@ public sealed class AuthService
     {
         try
         {
+            _sessionService.ClearStorage();
             if (await _sessionService.TokenExistsAsync())
             {
                 if (_sessionService.TokenExpired())
@@ -48,9 +51,19 @@ public sealed class AuthService
 
     private async Task<ErrorOr<BearerTokenInfo>> Authenticate()
     {
-        var result = await _auth0Client.LoginAsync();
+        var result =
+            await _auth0Client.LoginAsync(new { audience = _configuration["Auth0:Audience"] });
         if (result.IsError)
             return Error.Custom(999, result.Error, result.ErrorDescription);
+
+        for (;;)
+        {
+            Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAA");
+            Console.WriteLine(result.AccessToken);
+            Console.WriteLine(result.IdentityToken);
+            Console.WriteLine(result.RefreshToken);
+            Console.WriteLine(result.AccessTokenExpiration);
+        }
 
         var bearerTokenInfo = new BearerTokenInfo(
             result.AccessToken,
@@ -67,7 +80,14 @@ public sealed class AuthService
         if (result.IsError)
             return Error.Custom(999, result.Error, result.ErrorDescription);
 
-        var tokenHandler = new JwtSecurityTokenHandler();
+        for (;;)
+        {
+            Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAA");
+            Console.WriteLine(result.AccessToken);
+            Console.WriteLine(result.IdentityToken);
+            Console.WriteLine(result.RefreshToken);
+            Console.WriteLine(result.AccessTokenExpiration);
+        }
 
         var bearerTokenInfo = new BearerTokenInfo(
             result.AccessToken,
