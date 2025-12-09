@@ -1,9 +1,9 @@
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Extensions;
-using StudyTrackerUi.Web;
-using StudyTrackerUi.Web.Security;
 using StudyTrackerUi.Pages.Common.Popups;
 using StudyTrackerUi.ViewModels;
+using StudyTrackerUi.Web;
+using StudyTrackerUi.Web.Security;
 
 namespace StudyTrackerUi.Pages;
 
@@ -40,7 +40,6 @@ public partial class CreateTaskPage : ContentPage
             return;
         }
 
-        var taskId = Guid.NewGuid();
         var name = _viewModel.Name;
         var description = _viewModel.Description;
         var beginDate = _viewModel.BeginDate;
@@ -49,7 +48,7 @@ public partial class CreateTaskPage : ContentPage
         try
         {
             var result =
-                await _apiClient.CreateTask(tokenInfo.GetUserIdFromClaim(), taskId, name,
+                await _apiClient.CreateTask(tokenInfo.GetUserIdFromClaim(), name,
                     description,
                     DateOnly.FromDateTime(beginDate), DateOnly.FromDateTime(endDate));
 
