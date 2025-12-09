@@ -1,7 +1,6 @@
 using FluentValidation;
-using StudyTrackerUi.ViewModels;
 
-namespace StudyTrackerUi.Validations;
+namespace StudyTrackerUi.ViewModels.Validators;
 
 public class TaskValidator : AbstractValidator<CreateTaskViewModel>
 {

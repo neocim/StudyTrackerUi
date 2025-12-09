@@ -5,7 +5,7 @@ using StudyTrackerUi.ViewModels.Validators;
 
 namespace StudyTrackerUi.ViewModels;
 
-public sealed class CreateTaskViewModel : INotifyPropertyChanged
+public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
 {
     private readonly TaskValidator _taskValidator = new();
     private DateTime _beginDate = DateTime.Now.Date;
@@ -15,9 +15,10 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
     private string _errorMessage = null!;
     private string _name = null!;
     private bool _nameIsValid;
+    private Guid _parentTaskId;
     private bool _success;
 
-    public CreateTaskViewModel()
+    public CreateSubTaskViewModel()
     {
         //  without this, even if the user did not have time to enter anything, entry will be highlighted with an error
         _nameIsValid = true;
@@ -25,6 +26,19 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
     }
 
     public IAsyncRelayCommand ValidateCommand { get; private set; }
+
+    public Guid ParentTaskId
+    {
+        get => _parentTaskId;
+        set
+        {
+            if (_parentTaskId != value)
+            {
+                _parentTaskId = value;
+                OnPropertyChanged();
+            }
+        }
+    }
 
     public string Name
     {

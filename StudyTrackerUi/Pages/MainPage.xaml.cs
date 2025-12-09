@@ -56,7 +56,7 @@ public partial class MainPage : ContentPage
             }
             case "Subtask":
             {
-                await Navigation.PushAsync(new CreateSubTaskPage());
+                await Navigation.PushAsync(new СreateSubTaskPage(_mainViewModel.ApiClient));
                 break;
             }
         }

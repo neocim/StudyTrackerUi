@@ -40,7 +40,7 @@ public partial class СreateSubTaskPage : ContentPage
             return;
         }
 
-        var taskId = Guid.NewGuid();
+        var REMOVEIT = Guid.NewGuid();
         var name = _viewModel.Name;
         var description = _viewModel.Description;
         var beginDate = _viewModel.BeginDate;
@@ -49,7 +49,7 @@ public partial class СreateSubTaskPage : ContentPage
         try
         {
             var result =
-                await _apiClient.CreateSubTask(tokenInfo.GetUserIdFromClaim(), taskId, name,
+                await _apiClient.CreateSubTask(tokenInfo.GetUserIdFromClaim(), REMOVEIT, name,
                     description,
                     DateOnly.FromDateTime(beginDate), DateOnly.FromDateTime(endDate));
 
