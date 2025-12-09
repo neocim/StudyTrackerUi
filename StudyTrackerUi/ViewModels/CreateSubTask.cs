@@ -7,7 +7,7 @@ namespace StudyTrackerUi.ViewModels;
 
 public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
 {
-    private readonly TaskValidator _taskValidator = new();
+    private readonly SubTaskValidator _subTaskValidator = new();
     private DateTime _beginDate = DateTime.Now.Date;
     private bool _dateIsValid;
     private string _description = null!;
@@ -18,14 +18,14 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
     private Guid _parentTaskId;
     private bool _success;
 
+    public IAsyncRelayCommand ValidateCommand;
+
     public CreateSubTaskViewModel()
     {
         //  without this, even if the user did not have time to enter anything, entry will be highlighted with an error
         _nameIsValid = true;
         ValidateCommand = new AsyncRelayCommand(Validate);
     }
-
-    public IAsyncRelayCommand ValidateCommand { get; private set; }
 
     public Guid ParentTaskId
     {
@@ -149,7 +149,7 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
 
     public async Task Validate()
     {
-        var result = await _taskValidator.ValidateAsync(this);
+        var result = await _subTaskValidator.ValidateAsync(this);
 
         if (!result.IsValid)
         {

@@ -23,42 +23,39 @@ public partial class MainPage : ContentPage
 
     private async void CreateTasksButtonClicked(object? sender, EventArgs e)
     {
-        if (_mainViewModel.HasAuthError)
-            await DisplayAlert("Authentication Error", _mainViewModel.ErrorMessage, "Oh no");
-
-        var tokenNotExists = !await _sessionService.TokenExistsAsync();
-        var tokenExpired = _sessionService.TokenExpired();
-
-        if (tokenNotExists || tokenExpired)
+        try
         {
-            await _mainViewModel.Login();
-
             if (_mainViewModel.HasAuthError)
-                await DisplayAlert("Authentication Error", _mainViewModel.ErrorMessage, "Oh no");
-        }
+                await DisplayAlert("Authentication Error",
+                    $"{_mainViewModel.ErrorTitle}: {_mainViewModel.ErrorMessage}", "Oh no");
 
-        var action = await this.ShowPopupAsync<string>(new TaskCreate(), new PopupOptions
-            {
-                Shadow = null,
-                Shape = new RoundRectangle
+            var action = await this.ShowPopupAsync<string>(new TaskCreate(), new PopupOptions
                 {
-                    CornerRadius = 16
-                }
-            },
-            CancellationToken.None);
+                    Shadow = null,
+                    Shape = new RoundRectangle
+                    {
+                        CornerRadius = 16
+                    }
+                },
+                CancellationToken.None);
 
-        switch (action.Result)
+            switch (action.Result)
+            {
+                case "Task":
+                {
+                    await Navigation.PushAsync(new CreateTaskPage(_mainViewModel.ApiClient));
+                    break;
+                }
+                case "Subtask":
+                {
+                    await Navigation.PushAsync(new СreateSubTaskPage(_mainViewModel.ApiClient));
+                    break;
+                }
+            }
+        }
+        catch (Exception exception)
         {
-            case "Task":
-            {
-                await Navigation.PushAsync(new CreateTaskPage(_mainViewModel.ApiClient));
-                break;
-            }
-            case "Subtask":
-            {
-                await Navigation.PushAsync(new СreateSubTaskPage(_mainViewModel.ApiClient));
-                break;
-            }
+            for (;;) Console.WriteLine(exception.Message);
         }
     }
 }

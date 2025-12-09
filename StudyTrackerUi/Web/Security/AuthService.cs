@@ -21,7 +21,7 @@ public sealed class AuthService
     {
         if (await _sessionService.TokenExistsAsync())
         {
-            if (_sessionService.TokenExpired())
+            if (await _sessionService.TokenExpiredAsync())
             {
                 var refreshResult =
                     await RefreshTokenAsync(_sessionService.BearerTokenInfo!.RefreshToken);

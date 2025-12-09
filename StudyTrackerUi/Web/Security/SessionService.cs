@@ -34,9 +34,13 @@ public sealed class SessionService
         return true;
     }
 
-    public bool TokenExpired()
+    public async Task<bool> TokenExpiredAsync()
     {
-        return DateTimeOffset.UtcNow > BearerTokenInfo!.AccessTokenExpiration;
+        var token = await GetBearerTokenInfoAsync();
+
+        if (token is null) return true;
+
+        return DateTimeOffset.UtcNow > token.AccessTokenExpiration;
     }
 
     public void ClearStorage()

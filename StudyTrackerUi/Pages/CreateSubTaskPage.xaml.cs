@@ -10,13 +10,13 @@ namespace StudyTrackerUi.Pages;
 public partial class СreateSubTaskPage : ContentPage
 {
     private readonly ApiClient _apiClient;
-    private readonly CreateTaskViewModel _viewModel;
+    private readonly CreateSubTaskViewModel _viewModel;
 
     public СreateSubTaskPage(ApiClient apiClient)
     {
         InitializeComponent();
-        BindingContext = new CreateTaskViewModel();
-        _viewModel = (CreateTaskViewModel)BindingContext;
+        BindingContext = new CreateSubTaskViewModel();
+        _viewModel = (CreateSubTaskViewModel)BindingContext;
         _apiClient = apiClient;
     }
 
@@ -55,13 +55,13 @@ public partial class СreateSubTaskPage : ContentPage
 
             if (result.IsError)
                 await DisplayAlert($"Error: {result.Errors[0].Code}", result.Errors[0].Description,
-                    "Oh no!");
+                    "Oh no");
         }
         catch (Exception exception)
         {
-            await DisplayAlert("Unexpected error", exception.Message, "Oh no!");
+            await DisplayAlert("Unexpected error", exception.Message, "Oh no");
         }
 
-        CreateTaskButton.Text = $"{_viewModel.Name}";
+        CreateSubTaskButton.Text = $"{_viewModel.Name}";
     }
 }

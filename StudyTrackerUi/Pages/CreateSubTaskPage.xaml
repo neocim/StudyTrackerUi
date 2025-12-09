@@ -2,9 +2,8 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Title="Create a subtask"
+             Title="Create a task"
              x:Class="StudyTrackerUi.Pages.СreateSubTaskPage">
-
     <Grid>
         <ScrollView>
             <VerticalStackLayout
@@ -28,9 +27,25 @@
                             Padding="10, -10, 10, 0">
 
                             <Entry
+                                x:Name="NameEntry"
+                                Text="{Binding Name}"
                                 Placeholder="Enter the name"
-                                HorizontalOptions="FillAndExpand" />
+                                HorizontalOptions="FillAndExpand">
+                                <Entry.Triggers>
+                                    <DataTrigger TargetType="Entry"
+                                                 Binding="{Binding NameIsValid}"
+                                                 Value="False">
+                                        <Setter Property="PlaceholderColor"
+                                                Value="{StaticResource Red}" />
+                                        <Setter Property="TextColor" Value="{StaticResource Red}" />
+                                        <Setter Property="Placeholder"
+                                                Value="{Binding ErrorMessage}" />
+                                    </DataTrigger>
+                                </Entry.Triggers>
+                            </Entry>
+
                             <Entry
+                                Text="{Binding Description}"
                                 Placeholder="Enter the optional description"
                                 HorizontalOptions="FillAndExpand" />
                         </VerticalStackLayout>
@@ -63,10 +78,11 @@
                                 HorizontalOptions="Start" />
 
                             <DatePicker
-                                x:Name="StartDatePicker"
-                                Format="dd/MM/yyyy"
-                                MinimumDate="1/1/0001"
-                                MaximumDate="12/31/9999"
+                                Date="{Binding BeginDate}"
+                                Format="yyyy-MM-dd"
+
+                                MinimumDate="0001-01-01"
+                                MaximumDate="9999-12-31"
                                 HorizontalOptions="FillAndExpand"
                                 VerticalOptions="Center" />
                         </VerticalStackLayout>
@@ -89,10 +105,10 @@
                                 HorizontalOptions="Start" />
 
                             <DatePicker
-                                x:Name="EndDatePicker"
-                                Format="d"
-                                MinimumDate="1/1/0001"
-                                MaximumDate="12/31/9999"
+                                Date="{Binding EndDate}"
+                                Format="yyyy-MM-dd"
+                                MinimumDate="0001-01-01"
+                                MaximumDate="9999-12-31"
                                 HorizontalOptions="FillAndExpand"
                                 VerticalOptions="Center" />
                         </VerticalStackLayout>
@@ -102,9 +118,9 @@
         </ScrollView>
 
         <Button
-            x:Name="CreateTaskButton"
+            x:Name="CreateSubTaskButton"
+            Command="{Binding ValidateCommand}"
             Style="{StaticResource CreateTaskButton}"
             Clicked="CreateButtonClicked" />
     </Grid>
-
 </ContentPage>

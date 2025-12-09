@@ -9,6 +9,7 @@ namespace StudyTrackerUi.ViewModels;
 public sealed class MainViewModel : INotifyPropertyChanged
 {
     private string _errorMessage;
+    private string _errorTitle;
     private bool _hasAuthError;
     public ApiClient ApiClient;
     public AuthService AuthService;
@@ -28,6 +29,19 @@ public sealed class MainViewModel : INotifyPropertyChanged
             if (_errorMessage != value)
             {
                 _errorMessage = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public string ErrorTitle
+    {
+        get => _errorTitle;
+        set
+        {
+            if (_errorTitle != value)
+            {
+                _errorTitle = value;
                 OnPropertyChanged();
             }
         }
@@ -59,6 +73,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
             if (result.IsError)
             {
                 HasAuthError = true;
+                ErrorTitle = result.Errors[0].Code;
                 ErrorMessage = result.Errors[0].Description;
 
                 return;

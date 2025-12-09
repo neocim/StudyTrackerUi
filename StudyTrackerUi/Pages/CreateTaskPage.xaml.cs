@@ -20,6 +20,8 @@ public partial class CreateTaskPage : ContentPage
         _apiClient = apiClient;
     }
 
+    /// TODO!
+    /// Сheck the token validity before making requests
     private async void CreateButtonClicked(object? sender, EventArgs e)
     {
         if (!_viewModel.NameIsValid)
@@ -36,7 +38,7 @@ public partial class CreateTaskPage : ContentPage
         var tokenInfo = await SessionService.Instance.GetBearerTokenInfoAsync();
         if (tokenInfo is null)
         {
-            await DisplayAlert("Unexpected error", "Couldn't get bearer token info", "Oh no!");
+            await DisplayAlert("Unexpected error", "Couldn't get bearer token info", "Oh no");
             return;
         }
 
@@ -45,21 +47,15 @@ public partial class CreateTaskPage : ContentPage
         var beginDate = _viewModel.BeginDate;
         var endDate = _viewModel.EndDate;
 
-        try
-        {
-            var result =
-                await _apiClient.CreateTask(tokenInfo.GetUserIdFromClaim(), name,
-                    description,
-                    DateOnly.FromDateTime(beginDate), DateOnly.FromDateTime(endDate));
+        var result =
+            await _apiClient.CreateTask(tokenInfo.GetUserIdFromClaim(), name,
+                description,
+                DateOnly.FromDateTime(beginDate), DateOnly.FromDateTime(endDate));
 
-            if (result.IsError)
-                await DisplayAlert($"Error: {result.Errors[0].Code}", result.Errors[0].Description,
-                    "Oh no!");
-        }
-        catch (Exception exception)
-        {
-            await DisplayAlert("Unexpected error", exception.Message, "Oh no!");
-        }
+        if (result.IsError)
+            await DisplayAlert($"Error: {result.Errors[0].Code}",
+                result.Errors[0].Description,
+                "Oh no");
 
         CreateTaskButton.Text = $"{_viewModel.Name}";
     }
