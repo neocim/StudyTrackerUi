@@ -7,20 +7,26 @@ namespace StudyTrackerUi.ViewModels;
 
 public sealed class CreateTaskViewModel : INotifyPropertyChanged
 {
-    private readonly TaskValidator _validator = new();
-    private DateTime _beginDate = DateTime.Now.Date;
-    private bool _dateIsValid = true;
-    private string _description = null!;
-    private DateTime _endDate = DateTime.Now.Date.AddDays(1);
+    private readonly TaskValidator _validator;
+    private DateTime _beginDate;
+    private bool _dateIsValid;
+    private string _description;
+    private DateTime _endDate;
     private string? _errorMessage;
-    private string _name = null!;
+    private string _name;
     private bool _nameIsValid;
     private bool _success;
 
     public CreateTaskViewModel()
     {
+        _validator = new TaskValidator();
         //  without this, even if the user did not have time to enter anything, entry will be highlighted with an error
         _nameIsValid = true;
+        _name = null!;
+        _description = null!;
+        _beginDate = DateTime.Now.Date;
+        _endDate = DateTime.Now.Date.AddDays(1);
+
         ValidateCommand = new AsyncRelayCommand(Validate);
     }
 

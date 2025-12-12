@@ -27,8 +27,19 @@ public partial class CreateSubTaskPage : ContentPage
 
         if (!_viewModel.DateIsValid)
         {
-            await this.ShowPopupAsync(new ErrorPopup(_viewModel.ErrorMessage,
+            await this.ShowPopupAsync(new ErrorPopup(_viewModel.ErrorMessage!,
                     "Can not create a new task"), new PopupOptions { Shadow = null },
+                CancellationToken.None);
+            return;
+        }
+
+        var parentTaskId = _viewModel.SelectedTaskId;
+        if (parentTaskId is null)
+        {
+            await this.ShowPopupAsync(new ErrorPopup(
+                    "Please, select the task for which you want to create a subtask",
+                    "Can not create a new task"),
+                new PopupOptions { Shadow = null },
                 CancellationToken.None);
             return;
         }
@@ -47,14 +58,13 @@ public partial class CreateSubTaskPage : ContentPage
             return;
         }
 
-        var REMOVE_IT = Guid.NewGuid();
         var name = _viewModel.Name;
         var description = _viewModel.Description;
         var beginDate = _viewModel.BeginDate;
         var endDate = _viewModel.EndDate;
 
         var result =
-            await _apiClient.CreateSubTask(tokenInfo.GetUserIdFromClaim(), REMOVE_IT, name,
+            await _apiClient.CreateSubTask(tokenInfo.GetUserIdFromClaim(), parentTaskId.Value, name,
                 description,
                 DateOnly.FromDateTime(beginDate), DateOnly.FromDateTime(endDate));
 

@@ -27,7 +27,7 @@ public partial class CreateTaskPage : ContentPage
 
         if (!_viewModel.DateIsValid)
         {
-            await this.ShowPopupAsync(new ErrorPopup(_viewModel.ErrorMessage,
+            await this.ShowPopupAsync(new ErrorPopup(_viewModel.ErrorMessage!,
                     "Can not create a new task"), new PopupOptions { Shadow = null },
                 CancellationToken.None);
             return;

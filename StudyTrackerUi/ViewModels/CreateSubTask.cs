@@ -7,20 +7,28 @@ namespace StudyTrackerUi.ViewModels;
 
 public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
 {
-    private readonly SubTaskValidator _validator = new();
-    private DateTime _beginDate = DateTime.Now.Date;
-    private bool _dateIsValid = true;
-    private string _description = null!;
-    private DateTime _endDate = DateTime.Now.Date.AddDays(1);
+    private readonly SubTaskValidator _validator;
+    private DateTime _beginDate;
+    private bool _dateIsValid;
+    private string _description;
+    private DateTime _endDate;
     private string? _errorMessage;
-    private string _name = null!;
+    private IEnumerable<string> _existingTasks;
+    private string _name;
     private bool _nameIsValid;
-    private bool _success;
+    private Guid? _selectedTaskId;
 
     public CreateSubTaskViewModel()
     {
+        _validator = new SubTaskValidator();
+        _existingTasks = new List<string>();
         //  without this, even if the user did not have time to enter anything, entry will be highlighted with an error
         _nameIsValid = true;
+        _name = null!;
+        _description = null!;
+        _beginDate = DateTime.Now.Date;
+        _endDate = DateTime.Now.Date.AddDays(1);
+
         ValidateCommand = new AsyncRelayCommand(Validate);
     }
 
@@ -40,6 +48,19 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
         }
     }
 
+    public Guid? SelectedTaskId
+    {
+        get => _selectedTaskId;
+        set
+        {
+            if (_selectedTaskId != value)
+            {
+                _selectedTaskId = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
     public string Description
     {
         get => _description;
@@ -48,19 +69,6 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
             if (_description != value)
             {
                 _description = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    public bool Success
-    {
-        get => _success;
-        set
-        {
-            if (_success != value)
-            {
-                _success = value;
                 OnPropertyChanged();
             }
         }
@@ -132,6 +140,10 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    public async Task GetExistingTasks()
+    {
+    }
 
     public async Task Validate()
     {
