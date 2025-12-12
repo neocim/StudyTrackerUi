@@ -12,7 +12,7 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
     private bool _dateIsValid = true;
     private string _description = null!;
     private DateTime _endDate = DateTime.Now.Date.AddDays(1);
-    private string _errorMessage = null!;
+    private string? _errorMessage;
     private string _name = null!;
     private bool _nameIsValid;
     private bool _success;
@@ -118,7 +118,7 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
         }
     }
 
-    public string ErrorMessage
+    public string? ErrorMessage
     {
         get => _errorMessage;
         set

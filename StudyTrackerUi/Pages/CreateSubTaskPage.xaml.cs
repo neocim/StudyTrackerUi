@@ -33,6 +33,13 @@ public partial class CreateSubTaskPage : ContentPage
             return;
         }
 
+        // if there is still error after all checks above throw unexpected error
+        if (_viewModel.ErrorMessage is not null)
+        {
+            await DisplayAlert("Unexpected error", _viewModel.ErrorMessage, "Oh no");
+            return;
+        }
+
         var tokenInfo = await SessionService.Instance.GetBearerTokenInfoAsync();
         if (tokenInfo is null)
         {
