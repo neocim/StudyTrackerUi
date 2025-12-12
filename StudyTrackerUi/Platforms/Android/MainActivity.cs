@@ -16,7 +16,7 @@ namespace StudyTrackerUi;
     DataPathPrefix = "/android/org.study.tracker/callback")]
 public class MainActivity : MauiAppCompatActivity
 {
-    protected override async void OnNewIntent(Intent? intent)
+    protected override void OnNewIntent(Intent? intent)
     {
         base.OnNewIntent(intent);
 

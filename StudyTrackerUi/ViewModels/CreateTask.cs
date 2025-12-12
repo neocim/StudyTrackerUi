@@ -7,7 +7,7 @@ namespace StudyTrackerUi.ViewModels;
 
 public sealed class CreateTaskViewModel : INotifyPropertyChanged
 {
-    private readonly TaskValidator _taskValidator = new();
+    private readonly TaskValidator _validator = new();
     private DateTime _beginDate = DateTime.Now.Date;
     private bool _dateIsValid = true;
     private string _description = null!;
@@ -135,7 +135,7 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
 
     public async Task Validate()
     {
-        var result = await _taskValidator.ValidateAsync(this);
+        var result = await _validator.ValidateAsync(this);
 
         if (!result.IsValid)
         {

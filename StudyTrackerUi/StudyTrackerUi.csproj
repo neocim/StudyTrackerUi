@@ -94,5 +94,8 @@
             <DependentUpon>CustomActionSheet.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
+        <Compile Update="Pages\CreateSubTaskPage.xaml.cs">
+            <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 </Project>

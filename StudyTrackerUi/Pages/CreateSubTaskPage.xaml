@@ -2,8 +2,8 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Title="Create a task"
-             x:Class="StudyTrackerUi.Pages.СreateSubTaskPage">
+             Title="Create a subtask"
+             x:Class="StudyTrackerUi.Pages.CreateSubTaskPage">
     <Grid>
         <ScrollView>
             <VerticalStackLayout
@@ -118,7 +118,7 @@
         </ScrollView>
 
         <Button
-            x:Name="CreateSubTaskButton"
+            x:Name="CreateTaskButton"
             Command="{Binding ValidateCommand}"
             Style="{StaticResource CreateTaskButton}"
             Clicked="CreateButtonClicked" />

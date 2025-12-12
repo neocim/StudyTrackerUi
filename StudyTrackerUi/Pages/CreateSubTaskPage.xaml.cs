@@ -7,12 +7,12 @@ using StudyTrackerUi.Web.Security;
 
 namespace StudyTrackerUi.Pages;
 
-public partial class СreateSubTaskPage : ContentPage
+public partial class CreateSubTaskPage : ContentPage
 {
     private readonly ApiClient _apiClient;
     private readonly CreateSubTaskViewModel _viewModel;
 
-    public СreateSubTaskPage(ApiClient apiClient)
+    public CreateSubTaskPage(ApiClient apiClient)
     {
         InitializeComponent();
         BindingContext = new CreateSubTaskViewModel();
@@ -20,6 +20,8 @@ public partial class СreateSubTaskPage : ContentPage
         _apiClient = apiClient;
     }
 
+    /// TODO!
+    /// Сheck the token validity before making requests
     private async void CreateButtonClicked(object? sender, EventArgs e)
     {
         if (!_viewModel.NameIsValid)
@@ -28,7 +30,7 @@ public partial class СreateSubTaskPage : ContentPage
         if (!_viewModel.DateIsValid)
         {
             await this.ShowPopupAsync(new ErrorPopup(_viewModel.ErrorMessage,
-                    "Can not create a new sub task"), new PopupOptions { Shadow = null },
+                    "Can not create a new task"), new PopupOptions { Shadow = null },
                 CancellationToken.None);
             return;
         }
@@ -36,32 +38,26 @@ public partial class СreateSubTaskPage : ContentPage
         var tokenInfo = await SessionService.Instance.GetBearerTokenInfoAsync();
         if (tokenInfo is null)
         {
-            await DisplayAlert("Unexpected error", "Couldn't get bearer token info", "Oh no!");
+            await DisplayAlert("Unexpected error", "Couldn't get bearer token info", "Oh no");
             return;
         }
 
-        var REMOVEIT = Guid.NewGuid();
+        var REMOVE_IT = Guid.NewGuid();
         var name = _viewModel.Name;
         var description = _viewModel.Description;
         var beginDate = _viewModel.BeginDate;
         var endDate = _viewModel.EndDate;
 
-        try
-        {
-            var result =
-                await _apiClient.CreateSubTask(tokenInfo.GetUserIdFromClaim(), REMOVEIT, name,
-                    description,
-                    DateOnly.FromDateTime(beginDate), DateOnly.FromDateTime(endDate));
+        var result =
+            await _apiClient.CreateSubTask(tokenInfo.GetUserIdFromClaim(), REMOVE_IT, name,
+                description,
+                DateOnly.FromDateTime(beginDate), DateOnly.FromDateTime(endDate));
 
-            if (result.IsError)
-                await DisplayAlert($"Error: {result.Errors[0].Code}", result.Errors[0].Description,
-                    "Oh no");
-        }
-        catch (Exception exception)
-        {
-            await DisplayAlert("Unexpected error", exception.Message, "Oh no");
-        }
+        if (result.IsError)
+            await DisplayAlert($"Error: {result.Errors[0].Code}",
+                result.Errors[0].Description,
+                "Oh no");
 
-        CreateSubTaskButton.Text = $"{_viewModel.Name}";
+        CreateTaskButton.Text = $"{_viewModel.Name}";
     }
 }

@@ -11,7 +11,8 @@ public class TaskValidator : AbstractValidator<CreateTaskViewModel>
             .WithMessage("Name is required")
             .WithErrorCode("NamePropertyError");
 
-        RuleFor(t => t.BeginDate).LessThan(t => t.EndDate)
+        RuleFor(t => t.BeginDate)
+            .LessThan(t => t.EndDate)
             .WithMessage("Start date must be less than end date")
             .WithErrorCode("BeginDatePropertyError");
     }

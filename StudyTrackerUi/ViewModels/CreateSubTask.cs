@@ -7,15 +7,14 @@ namespace StudyTrackerUi.ViewModels;
 
 public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
 {
-    private readonly SubTaskValidator _subTaskValidator = new();
+    private readonly SubTaskValidator _validator = new();
     private DateTime _beginDate = DateTime.Now.Date;
-    private bool _dateIsValid;
+    private bool _dateIsValid = true;
     private string _description = null!;
     private DateTime _endDate = DateTime.Now.Date.AddDays(1);
     private string _errorMessage = null!;
     private string _name = null!;
     private bool _nameIsValid;
-    private Guid _parentTaskId;
     private bool _success;
 
     public IAsyncRelayCommand ValidateCommand;
@@ -25,19 +24,6 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
         //  without this, even if the user did not have time to enter anything, entry will be highlighted with an error
         _nameIsValid = true;
         ValidateCommand = new AsyncRelayCommand(Validate);
-    }
-
-    public Guid ParentTaskId
-    {
-        get => _parentTaskId;
-        set
-        {
-            if (_parentTaskId != value)
-            {
-                _parentTaskId = value;
-                OnPropertyChanged();
-            }
-        }
     }
 
     public string Name
@@ -149,14 +135,14 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
 
     public async Task Validate()
     {
-        var result = await _subTaskValidator.ValidateAsync(this);
+        var result = await _validator.ValidateAsync(this);
 
         if (!result.IsValid)
         {
             if (result.Errors[0].ErrorCode == "NamePropertyError") NameIsValid = false;
             if (result.Errors[0].ErrorCode == "BeginDatePropertyError") DateIsValid = false;
 
-            ErrorMessage = result.Errors[0].ErrorMessage;
+            ErrorMessage = result.Errors[0].ErrorCode;
             return;
         }
 

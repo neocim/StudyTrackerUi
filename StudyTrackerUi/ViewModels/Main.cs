@@ -8,9 +8,8 @@ namespace StudyTrackerUi.ViewModels;
 
 public sealed class MainViewModel : INotifyPropertyChanged
 {
-    private string _errorMessage;
-    private string _errorTitle;
-    private bool _hasAuthError;
+    private string? _errorMessage;
+    private string? _errorTitle;
     public ApiClient ApiClient;
     public AuthService AuthService;
 
@@ -21,7 +20,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
         LoginCommand = new AsyncRelayCommand(Login);
     }
 
-    public string ErrorMessage
+    public string? ErrorMessage
     {
         get => _errorMessage;
         set
@@ -34,7 +33,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
         }
     }
 
-    public string ErrorTitle
+    public string? ErrorTitle
     {
         get => _errorTitle;
         set
@@ -42,19 +41,6 @@ public sealed class MainViewModel : INotifyPropertyChanged
             if (_errorTitle != value)
             {
                 _errorTitle = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    public bool HasAuthError
-    {
-        get => _hasAuthError;
-        set
-        {
-            if (_hasAuthError != value)
-            {
-                _hasAuthError = value;
                 OnPropertyChanged();
             }
         }
@@ -72,7 +58,6 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
             if (result.IsError)
             {
-                HasAuthError = true;
                 ErrorTitle = result.Errors[0].Code;
                 ErrorMessage = result.Errors[0].Description;
 
@@ -83,7 +68,6 @@ public sealed class MainViewModel : INotifyPropertyChanged
         }
         catch (Exception ex)
         {
-            HasAuthError = true;
             ErrorMessage = ex.Message;
         }
     }

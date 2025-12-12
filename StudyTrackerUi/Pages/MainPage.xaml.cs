@@ -10,14 +10,14 @@ namespace StudyTrackerUi.Pages;
 
 public partial class MainPage : ContentPage
 {
-    private readonly MainViewModel _mainViewModel;
     private readonly SessionService _sessionService;
+    private readonly MainViewModel _viewModel;
 
     public MainPage(ApiClient apiClient, AuthService authService)
     {
         InitializeComponent();
         BindingContext = new MainViewModel(apiClient, authService);
-        _mainViewModel = (MainViewModel)BindingContext;
+        _viewModel = (MainViewModel)BindingContext;
         _sessionService = SessionService.Instance;
     }
 
@@ -25,9 +25,18 @@ public partial class MainPage : ContentPage
     {
         try
         {
-            if (_mainViewModel.HasAuthError)
+            if (_viewModel.ErrorMessage is not null)
                 await DisplayAlert("Authentication Error",
-                    $"{_mainViewModel.ErrorTitle}: {_mainViewModel.ErrorMessage}", "Oh no");
+                    $"{_viewModel.ErrorTitle}: {_viewModel.ErrorMessage}", "Oh no");
+
+            if (await _sessionService.GetBearerTokenInfoAsync() is null)
+            {
+                await this.ShowPopupAsync(new ErrorPopup(
+                        "To create a task, you must log in to your account.",
+                        "Log in, please"), new PopupOptions { Shadow = null },
+                    CancellationToken.None);
+                return;
+            }
 
             var action = await this.ShowPopupAsync<string>(new TaskCreate(), new PopupOptions
                 {
@@ -43,12 +52,12 @@ public partial class MainPage : ContentPage
             {
                 case "Task":
                 {
-                    await Navigation.PushAsync(new CreateTaskPage(_mainViewModel.ApiClient));
+                    await Navigation.PushAsync(new CreateTaskPage(_viewModel.ApiClient));
                     break;
                 }
                 case "Subtask":
                 {
-                    await Navigation.PushAsync(new СreateSubTaskPage(_mainViewModel.ApiClient));
+                    await Navigation.PushAsync(new CreateSubTaskPage(_viewModel.ApiClient));
                     break;
                 }
             }
