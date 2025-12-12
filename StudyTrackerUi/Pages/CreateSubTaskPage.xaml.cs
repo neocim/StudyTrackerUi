@@ -20,8 +20,6 @@ public partial class CreateSubTaskPage : ContentPage
         _apiClient = apiClient;
     }
 
-    /// TODO!
-    /// Сheck the token validity before making requests
     private async void CreateButtonClicked(object? sender, EventArgs e)
     {
         if (!_viewModel.NameIsValid)
