@@ -17,14 +17,14 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
     private bool _nameIsValid;
     private bool _success;
 
-    public IAsyncRelayCommand ValidateCommand;
-
     public CreateTaskViewModel()
     {
         //  without this, even if the user did not have time to enter anything, entry will be highlighted with an error
         _nameIsValid = true;
         ValidateCommand = new AsyncRelayCommand(Validate);
     }
+
+    public IAsyncRelayCommand ValidateCommand { get; set; }
 
     public string Name
     {
@@ -142,7 +142,7 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
             if (result.Errors[0].ErrorCode == "NamePropertyError") NameIsValid = false;
             if (result.Errors[0].ErrorCode == "BeginDatePropertyError") DateIsValid = false;
 
-            ErrorMessage = result.Errors[0].ErrorCode;
+            ErrorMessage = result.Errors[0].ErrorMessage;
             return;
         }
 
