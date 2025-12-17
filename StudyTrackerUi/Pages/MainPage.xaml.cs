@@ -12,7 +12,6 @@ namespace StudyTrackerUi.Pages;
 public partial class MainPage : ContentPage
 {
     private readonly IMemoryCache _memoryCache;
-    private readonly SessionService _sessionService;
     private readonly MainViewModel _viewModel;
 
     public MainPage(ApiClient apiClient, AuthService authService, IMemoryCache memoryCache)
@@ -20,7 +19,7 @@ public partial class MainPage : ContentPage
         InitializeComponent();
         BindingContext = new MainViewModel(apiClient, authService);
         _viewModel = (MainViewModel)BindingContext;
-        _sessionService = SessionService.Instance;
+        _memoryCache = memoryCache;
     }
 
     private async void CreateTasksButtonClicked(object? sender, EventArgs e)
@@ -28,10 +27,9 @@ public partial class MainPage : ContentPage
         try
         {
             if (_viewModel.ErrorMessage is not null)
-                await DisplayAlert("Authentication Error",
-                    $"{_viewModel.ErrorTitle}: {_viewModel.ErrorMessage}", "Oh no");
+                await DisplayAlert(_viewModel.ErrorTitle, _viewModel.ErrorMessage, "Oh no");
 
-            if (await _sessionService.GetBearerTokenInfoAsync() is null)
+            if (await SessionService.Instance.GetBearerTokenInfoAsync() is null)
             {
                 await this.ShowPopupAsync(new ErrorPopup(
                         "To create a task, you must log in to your account.",
