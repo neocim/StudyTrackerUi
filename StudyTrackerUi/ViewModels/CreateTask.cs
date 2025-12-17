@@ -20,7 +20,7 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
     public CreateTaskViewModel()
     {
         _validator = new TaskValidator();
-        //  without this, even if the user did not have time to enter anything, entry will be highlighted with an error
+        // without this, even if the user did not have time to enter anything, entry will be highlighted with an error
         _nameIsValid = true;
         _name = null!;
         _description = null!;
@@ -37,12 +37,10 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
         get => _name;
         set
         {
-            if (_name != value)
-            {
-                _name = value;
-                NameIsValid = true;
-                OnPropertyChanged();
-            }
+            if (_name == value) return;
+            _name = value;
+            NameIsValid = true;
+            OnPropertyChanged();
         }
     }
 
@@ -51,24 +49,9 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
         get => _description;
         set
         {
-            if (_description != value)
-            {
-                _description = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    public bool Success
-    {
-        get => _success;
-        set
-        {
-            if (_success != value)
-            {
-                _success = value;
-                OnPropertyChanged();
-            }
+            if (_description == value) return;
+            _description = value;
+            OnPropertyChanged();
         }
     }
 
@@ -77,11 +60,9 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
         get => _beginDate;
         set
         {
-            if (_beginDate != value)
-            {
-                _beginDate = value;
-                OnPropertyChanged();
-            }
+            if (_beginDate == value) return;
+            _beginDate = value;
+            OnPropertyChanged();
         }
     }
 
@@ -90,11 +71,9 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
         get => _endDate;
         set
         {
-            if (_endDate != value)
-            {
-                _endDate = value;
-                OnPropertyChanged();
-            }
+            if (_endDate == value) return;
+            _endDate = value;
+            OnPropertyChanged();
         }
     }
 
@@ -103,11 +82,9 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
         get => _nameIsValid;
         set
         {
-            if (_nameIsValid != value)
-            {
-                _nameIsValid = value;
-                OnPropertyChanged();
-            }
+            if (_nameIsValid == value) return;
+            _nameIsValid = value;
+            OnPropertyChanged();
         }
     }
 
@@ -116,11 +93,9 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
         get => _dateIsValid;
         set
         {
-            if (_dateIsValid != value)
-            {
-                _dateIsValid = value;
-                OnPropertyChanged();
-            }
+            if (_dateIsValid == value) return;
+            _dateIsValid = value;
+            OnPropertyChanged();
         }
     }
 
@@ -129,11 +104,9 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
         get => _errorMessage;
         set
         {
-            if (_errorMessage != value)
-            {
-                _errorMessage = value;
-                OnPropertyChanged();
-            }
+            if (_errorMessage == value) return;
+            _errorMessage = value;
+            OnPropertyChanged();
         }
     }
 
