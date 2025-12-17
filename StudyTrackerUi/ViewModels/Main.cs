@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using CommunityToolkit.Mvvm.Input;
 using StudyTrackerUi.Web;
 using StudyTrackerUi.Web.Security;
 
@@ -18,8 +17,6 @@ public sealed class MainViewModel : INotifyPropertyChanged
     {
         ApiClient = apiClient;
         _authService = authService;
-        LoginCommand = new AsyncRelayCommand(Login);
-        CheckUserTasksCommand = new AsyncRelayCommand(CheckUserTasks);
     }
 
     public string? ErrorMessage
@@ -55,32 +52,40 @@ public sealed class MainViewModel : INotifyPropertyChanged
         }
     }
 
-    public IAsyncRelayCommand LoginCommand { get; private set; }
-    public IAsyncRelayCommand CheckUserTasksCommand { get; private set; }
-
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    private async Task CheckUserTasks()
+    public async Task CheckUserTasks()
     {
-        var tokenInfo = await SessionService.Instance.GetBearerTokenInfoAsync();
-        if (tokenInfo is null)
+        try
         {
-            ErrorMessage = "Couldn't get bearer token info";
-            return;
+            var tokenInfo = await SessionService.Instance.GetBearerTokenInfoAsync();
+            if (tokenInfo is null)
+            {
+                ErrorMessage = "Couldn't get bearer token info";
+                return;
+            }
+
+            var result = await ApiClient.GetTasks(tokenInfo.GetUserIdFromClaim());
+
+            if (result.IsError)
+            {
+                ErrorTitle = "Unexpected error";
+                ErrorMessage = result.Errors[0].Description;
+            }
+
+            for (;;)
+                foreach (var v in result.Value)
+                    Console.WriteLine(v.Name);
+
+            CanCreateSubTasks = result.Value.Any();
         }
-
-        var result = await ApiClient.GetTasks(tokenInfo.GetUserIdFromClaim());
-
-        if (result.IsError)
+        catch (Exception ex)
         {
-            ErrorTitle = "Unexpected error";
-            ErrorMessage = result.Errors[0].Description;
+            for (;;) Console.WriteLine(ex.Message);
         }
-
-        CanCreateSubTasks = result.Value.Any();
     }
 
-    private async Task Login()
+    public async Task Login()
     {
         try
         {

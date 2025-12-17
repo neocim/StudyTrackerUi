@@ -22,6 +22,13 @@ public partial class MainPage : ContentPage
         _memoryCache = memoryCache;
     }
 
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await _viewModel.Login();
+        await _viewModel.CheckUserTasks();
+    }
+
     private async void CreateTasksButtonClicked(object? sender, EventArgs e)
     {
         try
@@ -57,6 +64,15 @@ public partial class MainPage : ContentPage
                 }
                 case "Subtask":
                 {
+                    if (!_viewModel.CanCreateSubTasks)
+                    {
+                        await this.ShowPopupAsync(new ErrorPopup(
+                                _viewModel.ErrorMessage!,
+                                _viewModel.ErrorTitle), new PopupOptions { Shadow = null },
+                            CancellationToken.None);
+                        return;
+                    }
+
                     await Navigation.PushAsync(new CreateSubTaskPage(_viewModel.ApiClient,
                         _memoryCache));
                     break;
