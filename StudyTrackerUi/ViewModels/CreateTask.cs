@@ -15,7 +15,6 @@ public sealed class CreateTaskViewModel : INotifyPropertyChanged
     private string? _errorMessage;
     private string _name;
     private bool _nameIsValid;
-    private bool _success;
 
     public CreateTaskViewModel()
     {

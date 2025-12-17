@@ -1,27 +1,36 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Caching.Memory;
 using StudyTrackerUi.ViewModels.Validators;
+using StudyTrackerUi.Web;
+using StudyTrackerUi.Web.Dto;
+using StudyTrackerUi.Web.Security;
+using Task = System.Threading.Tasks.Task;
 
 namespace StudyTrackerUi.ViewModels;
 
 public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
 {
+    private readonly ApiClient _apiClient;
     private readonly SubTaskValidator _validator;
     private DateTime _beginDate;
     private bool _dateIsValid;
     private string _description;
     private DateTime _endDate;
     private string? _errorMessage;
-    private IEnumerable<string> _existingTasks;
+    private IEnumerable<TaskNode> _existingTasks;
+    private IMemoryCache _memoryCache;
     private string _name;
     private bool _nameIsValid;
     private Guid? _selectedTaskId;
 
-    public CreateSubTaskViewModel()
+    public CreateSubTaskViewModel(ApiClient apiClient, IMemoryCache memoryCache)
     {
+        _memoryCache = memoryCache;
+        _apiClient = apiClient;
         _validator = new SubTaskValidator();
-        _existingTasks = new List<string>();
+        _existingTasks = new List<TaskNode>();
         // without this, even if the user did not have time to enter anything, entry will be highlighted with an error
         _nameIsValid = true;
         _name = null!;
@@ -127,6 +136,19 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
 
     public async Task GetExistingTasks()
     {
+        var tokenInfo = await SessionService.Instance.GetBearerTokenInfoAsync();
+        if (tokenInfo is null)
+        {
+            ErrorMessage = "Couldn't get bearer token info";
+            return;
+        }
+
+        var result = await _apiClient.GetTasks(tokenInfo.GetUserIdFromClaim());
+
+        if (result.IsError)
+            ErrorMessage = result.Errors[0].Description;
+
+        _existingTasks = result.Value;
     }
 
     public async Task Validate()

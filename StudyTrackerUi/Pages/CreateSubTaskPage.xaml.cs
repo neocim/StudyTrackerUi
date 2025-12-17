@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Extensions;
+using Microsoft.Extensions.Caching.Memory;
 using StudyTrackerUi.Pages.Common.Popups;
 using StudyTrackerUi.ViewModels;
 using StudyTrackerUi.Web;
@@ -12,10 +13,10 @@ public partial class CreateSubTaskPage : ContentPage
     private readonly ApiClient _apiClient;
     private readonly CreateSubTaskViewModel _viewModel;
 
-    public CreateSubTaskPage(ApiClient apiClient)
+    public CreateSubTaskPage(ApiClient apiClient, IMemoryCache memoryCache)
     {
         InitializeComponent();
-        BindingContext = new CreateSubTaskViewModel();
+        BindingContext = new CreateSubTaskViewModel(apiClient, memoryCache);
         _viewModel = (CreateSubTaskViewModel)BindingContext;
         _apiClient = apiClient;
     }

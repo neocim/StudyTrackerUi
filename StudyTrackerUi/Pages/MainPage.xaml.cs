@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Extensions;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Maui.Controls.Shapes;
 using StudyTrackerUi.Pages.Common.Popups;
 using StudyTrackerUi.ViewModels;
@@ -10,10 +11,11 @@ namespace StudyTrackerUi.Pages;
 
 public partial class MainPage : ContentPage
 {
+    private readonly IMemoryCache _memoryCache;
     private readonly SessionService _sessionService;
     private readonly MainViewModel _viewModel;
 
-    public MainPage(ApiClient apiClient, AuthService authService)
+    public MainPage(ApiClient apiClient, AuthService authService, IMemoryCache memoryCache)
     {
         InitializeComponent();
         BindingContext = new MainViewModel(apiClient, authService);
@@ -57,7 +59,8 @@ public partial class MainPage : ContentPage
                 }
                 case "Subtask":
                 {
-                    await Navigation.PushAsync(new CreateSubTaskPage(_viewModel.ApiClient));
+                    await Navigation.PushAsync(new CreateSubTaskPage(_viewModel.ApiClient,
+                        _memoryCache));
                     break;
                 }
             }

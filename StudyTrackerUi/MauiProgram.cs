@@ -32,6 +32,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
+        builder.Services.AddMemoryCache();
         builder.Services.AddSingleton<ApiRequest>();
         builder.Services.AddHttpClient<ApiClient>();
         builder.Services.AddSingleton(new Auth0Client(new Auth0ClientOptions

@@ -87,21 +87,6 @@ public sealed class ApiClient
         return task;
     }
 
-    public async Task<ErrorOr<IEnumerable<TaskNode>>> GetSubTasks(Guid userId, Guid taskId)
-    {
-        using var response =
-            await _httpClient.GetAsync(_apiRequest.User(userId).Task.GetMany);
-
-        var jsonResponse = await response.Content.ReadAsStringAsync();
-
-        if (response.StatusCode != HttpStatusCode.OK)
-            return Error.Custom(999, response.StatusCode.ToString(), jsonResponse);
-
-        var subTasks = JsonConvert.DeserializeObject<IEnumerable<TaskNode>>(jsonResponse)!;
-
-        return subTasks.ToErrorOr();
-    }
-
     public async Task<ErrorOr<TaskDto>> GetTask(Guid userId, Guid taskId)
     {
         using var response =
@@ -115,6 +100,35 @@ public sealed class ApiClient
         var task = JsonConvert.DeserializeObject<TaskDto>(jsonResponse)!;
 
         return task;
+    }
+
+    public async Task<ErrorOr<IEnumerable<TaskNode>>> GetTasks(Guid userId)
+    {
+        using var response = await _httpClient.GetAsync(_apiRequest.User(userId).Task.GetMany);
+
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+
+        if (response.StatusCode != HttpStatusCode.OK)
+            return Error.Custom(999, response.StatusCode.ToString(), jsonResponse);
+
+        var tasks = JsonConvert.DeserializeObject<IEnumerable<TaskNode>>(jsonResponse)!;
+
+        return tasks.ToErrorOr();
+    }
+
+    public async Task<ErrorOr<IEnumerable<TaskNode>>> GetSubTasks(Guid userId, Guid taskId)
+    {
+        using var response =
+            await _httpClient.GetAsync(_apiRequest.User(userId).Task.GetMany);
+
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+
+        if (response.StatusCode != HttpStatusCode.OK)
+            return Error.Custom(999, response.StatusCode.ToString(), jsonResponse);
+
+        var subTasks = JsonConvert.DeserializeObject<IEnumerable<TaskNode>>(jsonResponse)!;
+
+        return subTasks.ToErrorOr();
     }
 
     public void SetAuthHeader(string bearerToken)
