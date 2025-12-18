@@ -2,7 +2,7 @@ using Auth0.OidcClient;
 using ErrorOr;
 using Microsoft.Extensions.Configuration;
 
-namespace StudyTrackerUi.Web.Security;
+namespace StudyTrackerUi.Services.Security;
 
 public sealed class AuthService
 {

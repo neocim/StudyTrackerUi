@@ -2,10 +2,10 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Caching.Memory;
+using StudyTrackerUi.Dto;
+using StudyTrackerUi.Services.Security;
 using StudyTrackerUi.ViewModels.Validators;
 using StudyTrackerUi.Web;
-using StudyTrackerUi.Web.Dto;
-using StudyTrackerUi.Web.Security;
 using Task = System.Threading.Tasks.Task;
 
 namespace StudyTrackerUi.ViewModels;

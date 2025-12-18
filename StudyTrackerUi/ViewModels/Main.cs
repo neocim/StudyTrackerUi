@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using StudyTrackerUi.Services.Security;
 using StudyTrackerUi.Web;
-using StudyTrackerUi.Web.Security;
 
 namespace StudyTrackerUi.ViewModels;
 

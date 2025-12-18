@@ -3,8 +3,9 @@ using Auth0.OidcClient;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using StudyTrackerUi.Services;
+using StudyTrackerUi.Services.Security;
 using StudyTrackerUi.Web;
-using StudyTrackerUi.Web.Security;
 
 namespace StudyTrackerUi;
 
@@ -33,8 +34,11 @@ public static class MauiProgram
             });
 
         builder.Services.AddMemoryCache();
+        builder.Services.AddSingleton<CacheService>();
+
         builder.Services.AddSingleton<ApiRequest>();
         builder.Services.AddHttpClient<ApiClient>();
+
         builder.Services.AddSingleton(new Auth0Client(new Auth0ClientOptions
         {
             Domain = builder.Configuration["Auth0:Domain"],

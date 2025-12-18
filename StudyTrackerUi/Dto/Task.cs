@@ -1,10 +1,9 @@
-namespace StudyTrackerUi.Web.Dto;
+namespace StudyTrackerUi.Dto;
 
-public record TaskNode(
+public record Task(
     Guid Id,
     Guid OwnerId,
     Guid? ParentId,
-    ICollection<TaskNode>? SubTasks,
     DateOnly BeginDate,
     DateOnly EndDate,
     string Name,

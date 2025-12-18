@@ -3,8 +3,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using ErrorOr;
 using Newtonsoft.Json;
-using StudyTrackerUi.Web.Dto;
-using TaskDto = StudyTrackerUi.Web.Dto.Task;
+using StudyTrackerUi.Dto;
+using TaskDto = StudyTrackerUi.Dto.Task;
 
 namespace StudyTrackerUi.Web;
 

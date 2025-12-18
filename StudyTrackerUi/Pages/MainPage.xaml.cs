@@ -3,9 +3,9 @@ using CommunityToolkit.Maui.Extensions;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Maui.Controls.Shapes;
 using StudyTrackerUi.Pages.Common.Popups;
+using StudyTrackerUi.Services.Security;
 using StudyTrackerUi.ViewModels;
 using StudyTrackerUi.Web;
-using StudyTrackerUi.Web.Security;
 
 namespace StudyTrackerUi.Pages;
 

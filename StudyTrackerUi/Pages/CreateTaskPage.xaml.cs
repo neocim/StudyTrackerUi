@@ -1,9 +1,9 @@
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Extensions;
 using StudyTrackerUi.Pages.Common.Popups;
+using StudyTrackerUi.Services.Security;
 using StudyTrackerUi.ViewModels;
 using StudyTrackerUi.Web;
-using StudyTrackerUi.Web.Security;
 
 namespace StudyTrackerUi.Pages;
 
@@ -70,6 +70,19 @@ public partial class CreateTaskPage : ContentPage
         catch (Exception ex)
         {
             await DisplayAlert("Couldn't create a task", ex.Message, "Oh no");
+        }
+
+        try
+        {
+            var result = await _apiClient.GetTasks(tokenInfo.GetUserIdFromClaim());
+
+            if (result.IsError)
+                await DisplayAlert($"Error: {result.Errors[0].Code}",
+                    result.Errors[0].Description,
+                    "Oh no");
+        }
+        catch (Exception ex)
+        {
         }
     }
 }
