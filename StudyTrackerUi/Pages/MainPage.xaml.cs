@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Extensions;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Maui.Controls.Shapes;
 using StudyTrackerUi.Pages.Common.Popups;
+using StudyTrackerUi.Services;
 using StudyTrackerUi.Services.Security;
 using StudyTrackerUi.ViewModels;
 using StudyTrackerUi.Web;
@@ -11,15 +11,15 @@ namespace StudyTrackerUi.Pages;
 
 public partial class MainPage : ContentPage
 {
-    private readonly IMemoryCache _memoryCache;
+    private readonly CacheService _cacheService;
     private readonly MainViewModel _viewModel;
 
-    public MainPage(ApiClient apiClient, AuthService authService, IMemoryCache memoryCache)
+    public MainPage(ApiClient apiClient, AuthService authService, CacheService cacheService)
     {
         InitializeComponent();
         BindingContext = new MainViewModel(apiClient, authService);
         _viewModel = (MainViewModel)BindingContext;
-        _memoryCache = memoryCache;
+        _cacheService = cacheService;
     }
 
     protected override async void OnAppearing()
@@ -67,7 +67,8 @@ public partial class MainPage : ContentPage
             {
                 case "Task":
                 {
-                    await Navigation.PushAsync(new CreateTaskPage(_viewModel.ApiClient));
+                    await Navigation.PushAsync(new CreateTaskPage(_viewModel.ApiClient,
+                        _cacheService));
                     break;
                 }
                 case "Subtask":
@@ -82,7 +83,7 @@ public partial class MainPage : ContentPage
                     }
 
                     await Navigation.PushAsync(new CreateSubTaskPage(_viewModel.ApiClient,
-                        _memoryCache));
+                        _cacheService));
                     break;
                 }
             }

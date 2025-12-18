@@ -68,6 +68,7 @@ public partial class CreateTaskPage : ContentPage
                     result.Errors[0].Description,
                     "Oh no");
 
+            // REMOVE IT; REDIRECT TO TASK EDIT PAGE INSTEAD
             CreateTaskButton.Text = $"{_viewModel.Name}";
         }
         catch (Exception ex)

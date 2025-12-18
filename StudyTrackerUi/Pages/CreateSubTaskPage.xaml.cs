@@ -1,7 +1,7 @@
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Extensions;
-using Microsoft.Extensions.Caching.Memory;
 using StudyTrackerUi.Pages.Common.Popups;
+using StudyTrackerUi.Services;
 using StudyTrackerUi.Services.Security;
 using StudyTrackerUi.ViewModels;
 using StudyTrackerUi.Web;
@@ -11,14 +11,28 @@ namespace StudyTrackerUi.Pages;
 public partial class CreateSubTaskPage : ContentPage
 {
     private readonly ApiClient _apiClient;
+    private readonly CacheService _cacheService;
     private readonly CreateSubTaskViewModel _viewModel;
 
-    public CreateSubTaskPage(ApiClient apiClient, IMemoryCache memoryCache)
+    public CreateSubTaskPage(ApiClient apiClient, CacheService cacheService)
     {
         InitializeComponent();
-        BindingContext = new CreateSubTaskViewModel(apiClient, memoryCache);
+        BindingContext = new CreateSubTaskViewModel(apiClient, cacheService);
         _viewModel = (CreateSubTaskViewModel)BindingContext;
         _apiClient = apiClient;
+        _cacheService = cacheService;
+    }
+
+    protected override async void OnAppearing()
+    {
+        try
+        {
+            base.OnAppearing();
+        }
+        catch (Exception ex)
+        {
+            _viewModel.ErrorMessage = ex.Message;
+        }
     }
 
     private async void CreateButtonClicked(object? sender, EventArgs e)
@@ -34,6 +48,13 @@ public partial class CreateSubTaskPage : ContentPage
             return;
         }
 
+        // if there is still error after the checks above throw unexpected error
+        if (_viewModel.ErrorMessage is not null)
+        {
+            await DisplayAlert("Unexpected error", _viewModel.ErrorMessage, "Oh no");
+            return;
+        }
+
         var parentTaskId = _viewModel.SelectedTaskId;
         if (parentTaskId is null)
         {
@@ -42,13 +63,6 @@ public partial class CreateSubTaskPage : ContentPage
                     "Can not create a new task"),
                 new PopupOptions { Shadow = null },
                 CancellationToken.None);
-            return;
-        }
-
-        // if there is still error after all checks above throw unexpected error
-        if (_viewModel.ErrorMessage is not null)
-        {
-            await DisplayAlert("Unexpected error", _viewModel.ErrorMessage, "Oh no");
             return;
         }
 
@@ -64,16 +78,41 @@ public partial class CreateSubTaskPage : ContentPage
         var beginDate = _viewModel.BeginDate;
         var endDate = _viewModel.EndDate;
 
-        var result =
-            await _apiClient.CreateSubTask(tokenInfo.GetUserIdFromClaim(), parentTaskId.Value, name,
-                description,
-                DateOnly.FromDateTime(beginDate), DateOnly.FromDateTime(endDate));
+        try
+        {
+            var result =
+                await _apiClient.CreateSubTask(tokenInfo.GetUserIdFromClaim(), parentTaskId.Value,
+                    name,
+                    description,
+                    DateOnly.FromDateTime(beginDate), DateOnly.FromDateTime(endDate));
 
-        if (result.IsError)
-            await DisplayAlert($"Error: {result.Errors[0].Code}",
-                result.Errors[0].Description,
-                "Oh no");
+            if (result.IsError)
+                await DisplayAlert($"Error: {result.Errors[0].Code}",
+                    result.Errors[0].Description,
+                    "Oh no");
 
-        CreateTaskButton.Text = $"{_viewModel.Name}";
+            // REMOVE IT; REDIRECT TO TASK EDIT PAGE INSTEAD
+            CreateTaskButton.Text = $"{_viewModel.Name}";
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Couldn't create a subtask", ex.Message, "Oh no");
+        }
+
+        try
+        {
+            var result = await _apiClient.GetTasks(tokenInfo.GetUserIdFromClaim());
+
+            if (result.IsError)
+                await DisplayAlert($"Error: {result.Errors[0].Code}",
+                    result.Errors[0].Description,
+                    "Oh no");
+
+            _cacheService.SetTasks(result.Value);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Failed to get tasks", ex.Message, "Oh no");
+        }
     }
 }

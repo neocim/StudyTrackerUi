@@ -1,8 +1,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.Caching.Memory;
 using StudyTrackerUi.Dto;
+using StudyTrackerUi.Services;
 using StudyTrackerUi.Services.Security;
 using StudyTrackerUi.ViewModels.Validators;
 using StudyTrackerUi.Web;
@@ -15,19 +15,19 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
     private readonly ApiClient _apiClient;
     private readonly SubTaskValidator _validator;
     private DateTime _beginDate;
+    private CacheService _cacheService;
     private bool _dateIsValid;
     private string _description;
     private DateTime _endDate;
     private string? _errorMessage;
     private IEnumerable<TaskNode> _existingTasks;
-    private IMemoryCache _memoryCache;
     private string _name;
     private bool _nameIsValid;
     private Guid? _selectedTaskId;
 
-    public CreateSubTaskViewModel(ApiClient apiClient, IMemoryCache memoryCache)
+    public CreateSubTaskViewModel(ApiClient apiClient, CacheService cacheService)
     {
-        _memoryCache = memoryCache;
+        _cacheService = cacheService;
         _apiClient = apiClient;
         _validator = new SubTaskValidator();
         _existingTasks = new List<TaskNode>();
@@ -157,10 +157,11 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
 
         if (!result.IsValid)
         {
+            ErrorMessage = result.Errors[0].ErrorMessage;
+
             if (result.Errors[0].ErrorCode == "NamePropertyError") NameIsValid = false;
             if (result.Errors[0].ErrorCode == "BeginDatePropertyError") DateIsValid = false;
 
-            ErrorMessage = result.Errors[0].ErrorMessage;
             return;
         }
 

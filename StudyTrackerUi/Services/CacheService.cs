@@ -12,6 +12,13 @@ public sealed class CacheService(IMemoryCache memoryCache)
         memoryCache.Set(TasksKey, tasks);
     }
 
+    public IEnumerable<TaskNode> GetTasks()
+    {
+        var result = memoryCache.Get<IEnumerable<TaskNode>>(TasksKey);
+
+        return result ?? [];
+    }
+
     public void ClearTasks()
     {
         memoryCache.Remove(TasksKey);
