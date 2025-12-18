@@ -27,8 +27,8 @@ public partial class MainPage : ContentPage
         try
         {
             base.OnAppearing();
-            await _viewModel.CheckUserTasks();
             await _viewModel.Login();
+            await _viewModel.CheckUserTasks();
         }
         catch (Exception ex)
         {
@@ -42,7 +42,10 @@ public partial class MainPage : ContentPage
         try
         {
             if (_viewModel.ErrorMessage is not null)
+            {
                 await DisplayAlert(_viewModel.ErrorTitle, _viewModel.ErrorMessage, "Oh no");
+                return;
+            }
 
             if (await SessionService.Instance.GetBearerTokenInfoAsync() is null)
             {

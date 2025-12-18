@@ -15,7 +15,6 @@ public sealed class MainViewModel : INotifyPropertyChanged
     private string? _errorMessage;
     private string? _errorTitle;
 
-
     public MainViewModel(ApiClient apiClient, AuthService authService, CacheService cacheService)
     {
         ApiClient = apiClient;

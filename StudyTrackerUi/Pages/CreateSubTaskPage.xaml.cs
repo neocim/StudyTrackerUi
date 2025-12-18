@@ -48,13 +48,6 @@ public partial class CreateSubTaskPage : ContentPage
             return;
         }
 
-        // if there is still error after the checks above throw unexpected error
-        if (_viewModel.ErrorMessage is not null)
-        {
-            await DisplayAlert("Unexpected error", _viewModel.ErrorMessage, "Oh no");
-            return;
-        }
-
         var parentTaskId = _viewModel.SelectedTaskId;
         if (parentTaskId is null)
         {
