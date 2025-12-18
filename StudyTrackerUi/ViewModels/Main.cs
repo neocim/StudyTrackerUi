@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using StudyTrackerUi.Services;
 using StudyTrackerUi.Services.Security;
 using StudyTrackerUi.Web;
 
@@ -8,15 +9,18 @@ namespace StudyTrackerUi.ViewModels;
 public sealed class MainViewModel : INotifyPropertyChanged
 {
     private readonly AuthService _authService;
+    private readonly CacheService _cacheService;
     public readonly ApiClient ApiClient;
     private bool _canCreateSubTasks;
     private string? _errorMessage;
     private string? _errorTitle;
 
-    public MainViewModel(ApiClient apiClient, AuthService authService)
+
+    public MainViewModel(ApiClient apiClient, AuthService authService, CacheService cacheService)
     {
         ApiClient = apiClient;
         _authService = authService;
+        _cacheService = cacheService;
     }
 
     public string? ErrorMessage
@@ -61,6 +65,13 @@ public sealed class MainViewModel : INotifyPropertyChanged
         {
             ErrorTitle = "Unexpected authentication error";
             ErrorMessage = "Couldn't get bearer token info";
+            return;
+        }
+
+        var tasks = _cacheService.GetTasks();
+        if (tasks.Any())
+        {
+            CanCreateSubTasks = true;
             return;
         }
 

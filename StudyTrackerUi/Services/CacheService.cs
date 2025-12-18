@@ -5,7 +5,7 @@ namespace StudyTrackerUi.Services;
 
 public sealed class CacheService(IMemoryCache memoryCache)
 {
-    public static string TasksKey = "StudyTracker/Tasks/";
+    public static readonly string TasksKey = "StudyTracker/Tasks/";
 
     public void SetTasks(IEnumerable<TaskNode> tasks)
     {

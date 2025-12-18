@@ -17,7 +17,7 @@ public partial class MainPage : ContentPage
     public MainPage(ApiClient apiClient, AuthService authService, CacheService cacheService)
     {
         InitializeComponent();
-        BindingContext = new MainViewModel(apiClient, authService);
+        BindingContext = new MainViewModel(apiClient, authService, cacheService);
         _viewModel = (MainViewModel)BindingContext;
         _cacheService = cacheService;
     }
