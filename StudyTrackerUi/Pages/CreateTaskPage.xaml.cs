@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Extensions;
 using StudyTrackerUi.Pages.Common.Popups;
+using StudyTrackerUi.Services;
 using StudyTrackerUi.Services.Security;
 using StudyTrackerUi.ViewModels;
 using StudyTrackerUi.Web;
@@ -10,14 +11,16 @@ namespace StudyTrackerUi.Pages;
 public partial class CreateTaskPage : ContentPage
 {
     private readonly ApiClient _apiClient;
+    private readonly CacheService _cacheService;
     private readonly CreateTaskViewModel _viewModel;
 
-    public CreateTaskPage(ApiClient apiClient)
+    public CreateTaskPage(ApiClient apiClient, CacheService cacheService)
     {
         InitializeComponent();
         BindingContext = new CreateTaskViewModel();
         _viewModel = (CreateTaskViewModel)BindingContext;
         _apiClient = apiClient;
+        _cacheService = cacheService;
     }
 
     private async void CreateButtonClicked(object? sender, EventArgs e)
@@ -80,9 +83,12 @@ public partial class CreateTaskPage : ContentPage
                 await DisplayAlert($"Error: {result.Errors[0].Code}",
                     result.Errors[0].Description,
                     "Oh no");
+
+            _cacheService.SetTasks(result.Value);
         }
         catch (Exception ex)
         {
+            await DisplayAlert("Failed to get tasks", ex.Message, "Oh no");
         }
     }
 }
