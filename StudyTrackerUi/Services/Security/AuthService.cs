@@ -21,17 +21,19 @@ public sealed class AuthService
     {
         if (await _sessionService.TokenExistsAsync())
         {
+            var tokenInfo = await _sessionService.GetBearerTokenInfoAsync();
+            if (tokenInfo is null) return Error.Unauthorized("Token doesn't exist");
+
             if (await _sessionService.TokenExpiredAsync())
             {
-                var refreshResult =
-                    await RefreshTokenAsync(_sessionService.BearerTokenInfo!.RefreshToken);
+                var refreshResult = await RefreshTokenAsync(tokenInfo.RefreshToken);
                 if (refreshResult.IsError) return refreshResult.Errors[0];
 
                 await _sessionService.SaveBearerTokenInfoAsync(refreshResult.Value);
                 return refreshResult.Value;
             }
 
-            return _sessionService.BearerTokenInfo!;
+            return tokenInfo;
         }
 
         var authResult = await Authenticate();

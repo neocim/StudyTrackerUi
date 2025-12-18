@@ -94,7 +94,6 @@ public sealed class MainViewModel : INotifyPropertyChanged
         {
             ErrorTitle = result.Errors[0].Code;
             ErrorMessage = result.Errors[0].Description;
-
             return;
         }
 
