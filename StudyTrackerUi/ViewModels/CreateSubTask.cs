@@ -13,9 +13,9 @@ namespace StudyTrackerUi.ViewModels;
 public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
 {
     private readonly ApiClient _apiClient;
+    private readonly CacheService _cacheService;
     private readonly SubTaskValidator _validator;
     private DateTime _beginDate;
-    private CacheService _cacheService;
     private bool _dateIsValid;
     private string _description;
     private DateTime _endDate;
@@ -143,11 +143,19 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
             return;
         }
 
+        var tasks = _cacheService.GetTasks();
+        if (tasks.Any())
+        {
+            _existingTasks = tasks;
+            return;
+        }
+
         var result = await _apiClient.GetTasks(tokenInfo.GetUserIdFromClaim());
 
         if (result.IsError)
             ErrorMessage = result.Errors[0].Description;
 
+        _cacheService.SetTasks(result.Value);
         _existingTasks = result.Value;
     }
 
