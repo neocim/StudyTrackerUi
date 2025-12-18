@@ -56,55 +56,38 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
     public async Task CheckUserTasks()
     {
-        try
+        var tokenInfo = await SessionService.Instance.GetBearerTokenInfoAsync();
+        if (tokenInfo is null)
         {
-            var tokenInfo = await SessionService.Instance.GetBearerTokenInfoAsync();
-            if (tokenInfo is null)
-            {
-                ErrorMessage = "Couldn't get bearer token info";
-                return;
-            }
-
-            var result = await ApiClient.GetTasks(tokenInfo.GetUserIdFromClaim());
-
-            if (result.IsError)
-            {
-                ErrorTitle = "Unexpected error";
-                ErrorMessage = result.Errors[0].Description;
-            }
-
-            for (;;)
-                foreach (var v in result.Value)
-                    Console.WriteLine(v.Name);
-
-            CanCreateSubTasks = result.Value.Any();
+            ErrorTitle = "Unexpected authentication error";
+            ErrorMessage = "Couldn't get bearer token info";
+            return;
         }
-        catch (Exception ex)
+
+        var result = await ApiClient.GetTasks(tokenInfo.GetUserIdFromClaim());
+
+        if (result.IsError)
         {
-            for (;;) Console.WriteLine(ex.Message);
+            ErrorTitle = "Coludn't get get user tasks info";
+            ErrorMessage = result.Errors[0].Description;
         }
+
+        CanCreateSubTasks = result.Value.Any();
     }
 
     public async Task Login()
     {
-        try
+        var result = await _authService.Login();
+
+        if (result.IsError)
         {
-            var result = await _authService.Login();
+            ErrorTitle = result.Errors[0].Code;
+            ErrorMessage = result.Errors[0].Description;
 
-            if (result.IsError)
-            {
-                ErrorTitle = result.Errors[0].Code;
-                ErrorMessage = result.Errors[0].Description;
-
-                return;
-            }
-
-            ApiClient.SetAuthHeader(result.Value.AccessToken);
+            return;
         }
-        catch (Exception ex)
-        {
-            ErrorMessage = ex.Message;
-        }
+
+        ApiClient.SetAuthHeader(result.Value.AccessToken);
     }
 
     private void OnPropertyChanged([CallerMemberName] string? name = null)

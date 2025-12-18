@@ -43,7 +43,8 @@ public partial class CreateTaskPage : ContentPage
         var tokenInfo = await SessionService.Instance.GetBearerTokenInfoAsync();
         if (tokenInfo is null)
         {
-            await DisplayAlert("Unexpected error", "Couldn't get bearer token info", "Oh no");
+            await DisplayAlert("Unexpected authentication error", "Couldn't get bearer token info",
+                "Oh no");
             return;
         }
 
@@ -52,16 +53,23 @@ public partial class CreateTaskPage : ContentPage
         var beginDate = _viewModel.BeginDate;
         var endDate = _viewModel.EndDate;
 
-        var result =
-            await _apiClient.CreateTask(tokenInfo.GetUserIdFromClaim(), name,
-                description,
-                DateOnly.FromDateTime(beginDate), DateOnly.FromDateTime(endDate));
+        try
+        {
+            var result =
+                await _apiClient.CreateTask(tokenInfo.GetUserIdFromClaim(), name,
+                    description,
+                    DateOnly.FromDateTime(beginDate), DateOnly.FromDateTime(endDate));
 
-        if (result.IsError)
-            await DisplayAlert($"Error: {result.Errors[0].Code}",
-                result.Errors[0].Description,
-                "Oh no");
+            if (result.IsError)
+                await DisplayAlert($"Error: {result.Errors[0].Code}",
+                    result.Errors[0].Description,
+                    "Oh no");
 
-        CreateTaskButton.Text = $"{_viewModel.Name}";
+            CreateTaskButton.Text = $"{_viewModel.Name}";
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Couldn't create a task", ex.Message, "Oh no");
+        }
     }
 }

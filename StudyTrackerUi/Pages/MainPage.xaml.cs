@@ -24,9 +24,17 @@ public partial class MainPage : ContentPage
 
     protected override async void OnAppearing()
     {
-        base.OnAppearing();
-        await _viewModel.Login();
-        await _viewModel.CheckUserTasks();
+        try
+        {
+            base.OnAppearing();
+            await _viewModel.CheckUserTasks();
+            await _viewModel.Login();
+        }
+        catch (Exception ex)
+        {
+            _viewModel.ErrorTitle = ex.HResult.ToString();
+            _viewModel.ErrorMessage = ex.Message;
+        }
     }
 
     private async void CreateTasksButtonClicked(object? sender, EventArgs e)
@@ -81,7 +89,7 @@ public partial class MainPage : ContentPage
         }
         catch (Exception exception)
         {
-            for (;;) Console.WriteLine(exception.Message);
+            await DisplayAlert("Unexpected error", exception.Message, "Oh no");
         }
     }
 }
