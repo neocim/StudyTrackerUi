@@ -116,6 +116,23 @@
                         </VerticalStackLayout>
                     </Grid>
                 </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label
+                        Text="Select the main task"
+                        FontSize="18"
+                        Padding="30, 0, 0, 0"
+                        HorizontalOptions="Start"
+                        VerticalOptions="End" />
+
+                    <Grid
+                        HeightRequest="90"
+                        WidthRequest="370"
+                        HorizontalOptions="Center">
+
+                        <BoxView CornerRadius="10" />
+                    </Grid>
+                </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
 
