@@ -9,7 +9,7 @@ public sealed class CacheService(IMemoryCache memoryCache)
 
     public void SetTasks(IEnumerable<TaskNode> tasks)
     {
-        memoryCache.Set(TasksKey, tasks);
+        memoryCache.Set(TasksKey, tasks, TimeSpan.FromDays(1));
     }
 
     public IEnumerable<TaskNode> GetTasks()

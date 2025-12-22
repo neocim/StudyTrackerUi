@@ -41,9 +41,11 @@ public partial class MainPage : ContentPage
     {
         try
         {
-            if (_viewModel.ErrorMessage is not null)
+            if (!string.IsNullOrEmpty(_viewModel.ErrorMessage))
             {
                 await DisplayAlert(_viewModel.ErrorTitle, _viewModel.ErrorMessage, "Oh no");
+                _viewModel.ErrorTitle = string.Empty;
+                _viewModel.ErrorMessage = string.Empty;
                 return;
             }
 

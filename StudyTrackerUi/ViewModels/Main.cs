@@ -80,8 +80,10 @@ public sealed class MainViewModel : INotifyPropertyChanged
         {
             ErrorTitle = "Coludn't get get user tasks info";
             ErrorMessage = result.Errors[0].Description;
+            return;
         }
 
+        _cacheService.SetTasks(result.Value);
         CanCreateSubTasks = result.Value.Any();
     }
 

@@ -28,6 +28,7 @@ public partial class CreateSubTaskPage : ContentPage
         try
         {
             base.OnAppearing();
+            await _viewModel.GetExistingTasks();
         }
         catch (Exception ex)
         {
@@ -45,6 +46,13 @@ public partial class CreateSubTaskPage : ContentPage
             await this.ShowPopupAsync(new ErrorPopup(_viewModel.ErrorMessage!,
                     "Can not create a new task"), new PopupOptions { Shadow = null },
                 CancellationToken.None);
+            return;
+        }
+
+        if (!string.IsNullOrEmpty(_viewModel.ErrorMessage))
+        {
+            await DisplayAlert("Unexpected error", _viewModel.ErrorMessage, "Oh no");
+            _viewModel.ErrorMessage = string.Empty;
             return;
         }
 
