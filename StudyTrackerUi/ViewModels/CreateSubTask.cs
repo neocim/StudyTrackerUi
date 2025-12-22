@@ -24,6 +24,7 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
     private string _name;
     private bool _nameIsValid;
     private Guid? _selectedTaskId;
+    private string? _unexpectedErrorMessage;
 
     public CreateSubTaskViewModel(ApiClient apiClient, CacheService cacheService)
     {
@@ -132,6 +133,18 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
         }
     }
 
+    public string? UnexpectedErrorMessage
+    {
+        get => _unexpectedErrorMessage;
+        set
+        {
+            if (_unexpectedErrorMessage == value) return;
+            _unexpectedErrorMessage = value;
+            OnPropertyChanged();
+        }
+    }
+
+
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public async Task GetExistingTasks()
@@ -139,7 +152,7 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
         var tokenInfo = await SessionService.Instance.GetBearerTokenInfoAsync();
         if (tokenInfo is null)
         {
-            ErrorMessage = "Couldn't get bearer token info";
+            _unexpectedErrorMessage = "Couldn't get bearer token info";
             return;
         }
 
@@ -153,7 +166,7 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
         var result = await _apiClient.GetTasks(tokenInfo.GetUserIdFromClaim());
 
         if (result.IsError)
-            ErrorMessage = result.Errors[0].Description;
+            _unexpectedErrorMessage = result.Errors[0].Description;
 
         _cacheService.SetTasks(result.Value);
         _existingTasks = result.Value;

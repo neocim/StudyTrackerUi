@@ -49,10 +49,10 @@ public partial class CreateSubTaskPage : ContentPage
             return;
         }
 
-        if (!string.IsNullOrEmpty(_viewModel.ErrorMessage))
+        if (!string.IsNullOrEmpty(_viewModel.UnexpectedErrorMessage))
         {
             await DisplayAlert("Unexpected error", _viewModel.ErrorMessage, "Oh no");
-            _viewModel.ErrorMessage = string.Empty;
+            _viewModel.UnexpectedErrorMessage = string.Empty;
             return;
         }
 

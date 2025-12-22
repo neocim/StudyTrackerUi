@@ -32,7 +32,7 @@ public partial class MainPage : ContentPage
         }
         catch (Exception ex)
         {
-            _viewModel.ErrorTitle = ex.HResult.ToString();
+            _viewModel.ErrorTitle = "Unexpected error";
             _viewModel.ErrorMessage = ex.Message;
         }
     }
