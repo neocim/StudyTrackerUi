@@ -62,8 +62,8 @@ public sealed class MainViewModel : INotifyPropertyChanged
         var tokenInfo = await SessionService.Instance.GetBearerTokenInfoAsync();
         if (tokenInfo is null)
         {
-            ErrorTitle = "Unexpected authentication error";
-            ErrorMessage = "Couldn't get bearer token info";
+            ErrorTitle = "You have not logged in";
+            ErrorMessage = "Please log in or create a new account.";
             return;
         }
 
