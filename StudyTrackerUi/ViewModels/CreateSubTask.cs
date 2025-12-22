@@ -151,7 +151,7 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
         var tokenInfo = await SessionService.Instance.GetBearerTokenInfoAsync();
         if (tokenInfo is null)
         {
-            _unexpectedErrorMessage = "Couldn't get bearer token info";
+            UnexpectedErrorMessage = "Couldn't get bearer token info";
             return;
         }
 
@@ -165,7 +165,7 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
         var result = await _apiClient.GetTasks(tokenInfo.GetUserIdFromClaim());
 
         if (result.IsError)
-            _unexpectedErrorMessage = result.Errors[0].Description;
+            UnexpectedErrorMessage = result.Errors[0].Description;
 
         _cacheService.SetTasks(result.Value);
         _existingTasks = result.Value;
