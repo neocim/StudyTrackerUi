@@ -144,7 +144,6 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
         }
     }
 
-
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public async Task GetExistingTasks()
