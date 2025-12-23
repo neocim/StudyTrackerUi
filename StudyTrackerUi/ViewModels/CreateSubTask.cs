@@ -34,8 +34,8 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
         _existingTasks = new List<TaskNode>();
         // without this, even if the user did not have time to enter anything, entry will be highlighted with an error
         _nameIsValid = true;
-        _name = null!;
-        _description = null!;
+        _name = string.Empty;
+        _description = string.Empty;
         _beginDate = DateTime.Now.Date;
         _endDate = DateTime.Now.Date.AddDays(1);
 
@@ -111,6 +111,17 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
         }
     }
 
+    public IEnumerable<TaskNode> ExistingTasks
+    {
+        get => _existingTasks;
+        set
+        {
+            if (_existingTasks.Equals(value)) return;
+            _existingTasks = value;
+            OnPropertyChanged();
+        }
+    }
+
     public bool DateIsValid
     {
         get => _dateIsValid;
@@ -171,7 +182,7 @@ public sealed class CreateSubTaskViewModel : INotifyPropertyChanged
         _existingTasks = result.Value;
     }
 
-    public async Task Validate()
+    private async Task Validate()
     {
         var result = await _validator.ValidateAsync(this);
 
